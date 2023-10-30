@@ -1,0 +1,198 @@
+{% extends "templateSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+<div class="row pt-2">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Modificación de Activos</h2>
+            </div>
+            <div class="card-body">
+                <form action="/actualizar-activos" method="post" autocomplete="off">
+                    <div class="mb-3">
+                        <input type="text" name="idactivo" class="form-control" value="{{activo.idActivo}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="nombre" class="form-control" placeholder="Nombre del activo" value="{{activo.nombre}}" required
+                            autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="descripcion" cols="30" rows="10" class="form-control"
+                            placeholder="Descripción completa del activo(Sin saltos de linea)">{{activo.descripcion}}</textarea>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <label class="form-label">Confidencialidad</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <select name="confidencialidad" class="form-select" required>
+                                    {% for valor in cdi['confidencialidad'].keys() %}
+                                    {% if activo.confidencialidad == valor %}
+                                        <option value="{{valor}}" selected>{{valor}}</option>
+                                    {% else %}
+                                        <option value="{{valor}}">{{valor}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
+                                    data-bs-target="#VentanaConfidencialidad"><i class="fa fa-question"></i></button>
+                                <div class="modal fade" id="VentanaConfidencialidad" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Evaluar la Confidencialidad</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-justify">
+                                                <p>La confidencialidad se trata de proteger la información sensible que
+                                                    posee el
+                                                    activo y asegurarte de que solo las personas autorizadas puedan
+                                                    acceder a
+                                                    ella.</p>
+                                                {% for valor, opcion in cdi['confidencialidad'].items() %}
+                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <label class="form-label">Disponibilidad</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <select name="disponibilidad" class="form-select" required>
+                                    {% for valor in cdi['disponibilidad'].keys() %}
+                                    {% if activo.disponibilidad == valor %}
+                                        <option value="{{valor}}" selected>{{valor}}</option>
+                                    {% else %}
+                                        <option value="{{valor}}">{{valor}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
+                                    data-bs-target="#VentanaDisponibilidad"><i class="fa fa-question"></i></button>
+                                <div class="modal fade" id="VentanaDisponibilidad" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Evaluar la Disponibilidad</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-justify">
+                                                <p>Esto significa que la información o los servicios del que posee el
+                                                    activo
+                                                    están disponibles y accesibles cuando los necesitas.</p>
+                                                {% for valor, opcion in cdi['disponibilidad'].items() %}
+                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="row">
+                            <label class="form-label">Integridad</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <select name="integridad" class="form-select" required>
+                                    {% for valor in cdi['integridad'].keys() %}
+                                    {% if activo.integridad == valor %}
+                                        <option value="{{valor}}" selected>{{valor}}</option>
+                                    {% else %}
+                                        <option value="{{valor}}">{{valor}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
+                                    data-bs-target="#VentanaIntegridad"><i class="fa fa-question"></i></button>
+                                <div class="modal fade" id="VentanaIntegridad" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Evaluar la Integridad</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-justify">
+                                                <p>La integridad se refiere a mantener la calidad y la precisión de la
+                                                    información que posee el activo. En otras palabras, la información
+                                                    no debe
+                                                    ser alterada de manera no autorizada o incorrecta</p>
+                                                {% for valor, opcion in cdi['integridad'].items() %}
+                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Activo</label>
+                        <select name="idTipoActivo" class="form-select">
+                            {% for tipoActivo in tiposActivo %}
+                            {% if activo.idTipoActivo == tipoActivo.idTipoActivo %}
+                                <option value="{{tipoActivo.idTipoActivo}}" selected>{{tipoActivo.nombre}}</option>
+                            {% else %}
+                                <option value="{{tipoActivo.idTipoActivo}}">{{tipoActivo.nombre}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tipo de Ubicación</label>
+                        <select name="idTipoUbicacion" class="form-select">
+                            {% for tipoUbicacion in tiposUbicacion %}
+                            {% if activo.idTipoUbicacion == tipoUbicacion.idTipoUbicacion %}
+                                <option value="{{tipoUbicacion.idTipoUbicacion}}" selected>{{tipoUbicacion.nombre}}</option>
+                            {% else %}
+                                <option value="{{tipoUbicacion.idTipoUbicacion}}">{{tipoUbicacion.nombre}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Responsable o Dueño del Activo</label>
+                        <select name="idParticipante" class="form-select">
+                            {% for participante in participantes %}
+                            {% if activo.idParticipante == participante.idResponsable %}
+                                <option value="{{participante.idResponsable}}" selected>{{participante.nombre}} | Departamento: {{participante.departamento}}</option>
+                            {% else %}
+                                <option value="{{participante.idResponsable}}">{{participante.nombre}} | Departamento: {{participante.departamento}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-dark bg-black w-100">Modificar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

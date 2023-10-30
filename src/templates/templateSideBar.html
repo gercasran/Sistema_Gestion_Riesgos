@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>TT 1 - Prototipo</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Style file -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+
+    <!-- Bootstrap JavaScript Libraries & JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <!-- Script file -->
+    <script src="{{url_for('static', filename='js/validate.js')}}"></script>
+    <script src="{{url_for('static', filename='js/subtables.js')}}"></script>
+    <script src="{{url_for('static', filename='js/deletes.js')}}"></script>
+    <script src="{{url_for('static', filename='js/alerts.js')}}"></script>
+
+    <!-- Font-Awasome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS v5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body data-bs-theme="dark">
+
+    <!-- Sidebar -->
+    <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse">
+        <div class="position-sticky">
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <a href="/home" class="list-group-item list-group-item-action py-2 ripple">
+                    <i class="fas fa-home fa-fw me-3"></i><span>Inicio</span>
+                </a>
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <div class="list-group-item list-group-item-action py-2 ripple" data-bs-toggle="collapse"
+                data-bs-target="#submenuEncargados" aria-expanded="false">
+                    <i class="fas fa-people-group fa-fw me-3"></i><span>Participantes</span>
+                </div>
+                <div class="collapse list-group list-group-flush" id="submenuEncargados">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/listar-responsables" class="text-light" style="text-decoration: none;"><span>Lista</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/crear-responsable" class="text-light" style="text-decoration: none;"><span>Alta</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/borrar-responsable" class="text-light" style="text-decoration: none;"><span>Baja</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/editar-responsable" class="text-light" style="text-decoration: none;"><span>Modificación</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <div class="list-group-item list-group-item-action py-2 ripple" data-bs-toggle="collapse"
+                    data-bs-target="#submenuActivos" aria-expanded="false">
+                    <i class="fas fa-laptop fa-fw me-3"></i><span>Activos</span>
+                </div>
+                <div class="collapse list-group list-group-flush" id="submenuActivos">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/listar-inventario" class="text-light" style="text-decoration: none;"><span>Inventario</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/crear-activo" class="text-light" style="text-decoration: none;"><span>Alta</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/borrar-activo" class="text-light" style="text-decoration: none;"><span>Baja</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/editar-activo" class="text-light" style="text-decoration: none;"><span>Modificación</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <div class="list-group-item list-group-item-action py-2 ripple" data-bs-toggle="collapse"
+                data-bs-target="#submenuRiesgos" aria-expanded="false">
+                    <i class="fas fa-triangle-exclamation fa-fw me-3"></i><span>Riesgos</span>
+                </div>
+                <div class="collapse list-group list-group-flush" id="submenuRiesgos">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/listar-riesgos" class="text-light" style="text-decoration: none;"><span>Listado</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/crear-riesgo" class="text-light" style="text-decoration: none;"><span>Alta</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/borrar-riesgo" class="text-light" style="text-decoration: none;"><span>Baja</span></a>
+                        </li>
+                        <li class="list-group-item list-group-item-action py-2 ripple">
+                            <a href="/editar-riesgo" class="text-light" style="text-decoration: none;"><span>Modificación</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <div class="list-group-item list-group-item-action py-2 ripple">
+                    <i class="fas fa-file-pdf fa-fw me-3"></i><span>Bitacora</span>
+                </div>
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <div class="list-group-item list-group-item-action py-2 ripple">
+                    <i class="fas fa-clock fa-fw me-3"></i><span>Reportes</span>
+                </div>
+            </div>
+            <div class="list-group list-group-flush mx-3 mt-4">
+                <a href="/regresar-proyectos" class="list-group-item list-group-item-action py-2 ripple">
+                    <i class="fas fa-right-from-bracket fa-fw me-3"></i><span>Salir del Proyecto</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+    <!-- Sidebar -->
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #151515;">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu"
+                aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Brand -->
+            <div class="navbar-brand">
+                <h4>Prototipo 1</h4>
+            </div>
+
+            <!-- Right links -->
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+
+                <!-- Avatar -->
+                <li class="nav-item dropdown">
+                    <div class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownMenuLink"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user me-2"></i>
+                        <span>{% block username %}{% endblock %}</span>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+
+    <!--Main layout-->
+    <main style="margin-top: 58px; margin-left: 20px;">
+        <div class="container pt-4">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+    <!--Main layout-->
+</body>
+
+</html>

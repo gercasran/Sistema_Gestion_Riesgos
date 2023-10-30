@@ -1,0 +1,87 @@
+@media (min-width: 991.98px) {
+    main {
+        padding-left: 240px;
+        padding-right: 25px;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 58px 0 0;
+    /* Height of navbar */
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
+    width: 240px;
+    z-index: 600;
+}
+
+@media (max-width: 991.98px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+
+.sidebar .active {
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 48px);
+    padding-top: 0.5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+}
+
+.item {
+    background-color: #151515;
+}
+
+#sidebarMenu {
+    background-color: #151515;
+    color: white;
+}
+
+#sidebarMenu .list-group-item {
+    background-color: #151515;
+    color: white; 
+}
+
+#sidebarMenu .list-group-item.active, 
+#sidebarMenu .list-group-item:hover {
+    background-color: #252525;
+    color: white;
+}
+
+#sidebarMenu a {
+    color: white;
+}
+
+#sidebarMenu a:hover {
+    color: #007bff;
+}
+
+.navbar .dropdown-menu {
+    background-color: #151515;
+    color: white;
+}
+
+.navbar .dropdown-menu .dropdown-item.active,
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #252525; 
+    color: white; 
+}
+
+.navbar .dropdown-menu a {
+    color: white; 
+}
+
+.navbar .dropdown-menu a:hover {
+    color: #007bff; 
+}

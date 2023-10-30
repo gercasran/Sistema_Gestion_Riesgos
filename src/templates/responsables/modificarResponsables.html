@@ -1,0 +1,38 @@
+{% extends "templateSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+<div class="row pt-2">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header text-center">
+                <h2>Modificación de Participantes</h2>
+            </div>
+            <div class="card-body">
+                <form action="/actualizar-responsable" method="post" autocomplete="off" id="formulario">
+                    <div class="mb-3">
+                        <input type="text" name="idResponsable" class="form-control" value="{{responsable.idResponsable}}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="nombre" class="form-control" placeholder="Nombre Completo del Participante" value="{{responsable.nombre}}" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="departamento" class="form-control" placeholder="Departamento del Participante" value="{{responsable.departamento}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="tel" name="telefono" class="form-control" placeholder="El telefono del Participante" pattern="(55|56)-[0-9]{4}-[0-9]{4}" value="{{responsable.telefono}}" required>
+                        <div class="form-text">Formato del telefono 55-1234-5678 o 56-1234-5678</div>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Correo electrónico del Participante" value="{{responsable.correo}}" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-dark bg-black w-100">Modificar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

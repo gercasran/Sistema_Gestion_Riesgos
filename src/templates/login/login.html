@@ -1,0 +1,41 @@
+{% extends "templateSimple.html" %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="row pt-2" id="alertRow">
+    <div class="alert alert-{{messages[0]}} alert-dismissible fade show" role="alert">
+        {{messages[1]}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="closeAlert"></button>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row pt-5">
+    <div class="col-3"></div>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="mb-3 text-center">
+                    <h2>Iniciar Sesión</h2>
+                </div>
+                <form action="/login" method="post" autocomplete="off" id="formulario">
+                    <div class="mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="E-Mail" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-dark w-100 bg-black">Ingresar</button>
+                    </div>
+                </form>
+                <div class="mb-3 text-end">
+                    <a href="/register" class="link-light">¡Registrate!</a> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-3"></div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>TT 1 - Prototipo</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Style file -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+
+    <!-- Bootstrap JavaScript Libraries & JQuery-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+    <!-- Script file -->
+    <script src="{{url_for('static', filename='js/subtables.js')}}"></script>
+    <script src="{{url_for('static', filename='js/deletes.js')}}"></script>
+    <script src="{{url_for('static', filename='js/alerts.js')}}"></script>
+
+    <!-- Font-Awasome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Bootstrap CSS v5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+
+<body data-bs-theme="dark">
+
+    <!-- Navbar -->
+    <nav id="main-navbar" class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #151515;">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+
+            <!-- Brand -->
+            <div class="navbar-brand">
+                <h4>Prototipo 1</h4>
+            </div>
+
+            <!-- Right links -->
+            <ul class="navbar-nav ms-auto d-flex flex-row">
+
+                <!-- Avatar -->
+                <li class="nav-item dropdown">
+                    <div class="nav-link dropdown-toggle d-flex align-items-center" id="navbarDropdownMenuLink"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-user me-2"></i>
+                        <span>{% block username %}{% endblock %}</span>
+                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
+                        <li>
+                            <a class="dropdown-item" href="/logout">Cerrar sesión</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+
+    <!--Main layout-->
+    <div class="container pt-4">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!--Main layout-->
+</body>
+
+</html>

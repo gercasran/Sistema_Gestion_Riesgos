@@ -1,0 +1,28 @@
+{% extends "templateNoSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+<div class="row pt-2"></div>
+<div class="row pt-5">
+    <div class="card">
+        <div class="card-body">
+            <form action="/modificar-proyecto" method="post" autocomplete="off">
+                <div class="mb-3">
+                    <input type="text" name="idproyecto" class="form-control" value="{{proyecto.idProyecto}}" readonly>
+                </div>
+                <div class="mb-3">
+                    <input type="text" name="nombre" class="form-control" placeholder="Nombre del proyecto" value="{{proyecto.nombre}}" autofocus>
+                </div>
+                <div class="mb-3">
+                    <textarea name="descripcion" cols="30" rows="10" class="form-control"
+                        placeholder="Descripción del proyecto(Sin saltos de linea)">{{proyecto.descripcion}}</textarea>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-dark bg-black w-100">Modificar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

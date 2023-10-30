@@ -1,0 +1,71 @@
+{% extends "templateSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="row pt-5" id="alertRow">
+    <div class="alert alert-{{messages[0]}} alert-dismissible fade show" role="alert">
+        {{messages[1]}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="closeAlert"></button>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row pt-2">
+    <h2>Activos</h2>
+</div>
+<div class="row pt-2">
+    <div class="table-responsive">
+        <table class="table table-dark table-stripped">
+            <thead>
+                <th>Nombre del Activo</th>
+                <th>Confidencialidad</th>
+                <th>Disponibilidad</th>
+                <th>Integridad</th>
+                <th>Sensibilidad</th>
+                <th>Más información y Acciones</th>
+            </thead>
+            <tbody>
+                {% for activo in activos %}
+                <tr>
+                    <td>{{ activo.nombre }}</td>
+                    <td>{{ activo.confidencialidad }}</td>
+                    <td>{{ activo.disponibilidad }}</td>
+                    <td>{{ activo.integridad }}</td>
+                    <td>{{ activo.sensibilidad }}</td>
+                    <td>
+                        <button type="button" class="btn btn-light" idelemento="{{activo.idActivo}}"
+                            onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                        <a href="/modificar-activo/{{activo.idActivo}}" class="btn btn-success"><i
+                                class="fa fa-pencil"></i></a>
+                    </td>
+                </tr>
+                <tr class="subtable text-justify" id="subtable_{{activo.idActivo}}" style="display: none;">
+                    <td colspan="6">
+                        <h4>Más información del activo</h4>
+                        <p><b>Descripción: </b>{{activo.descripcion}}</p>
+                        <p><b>Tipo de Activo: </b>{{activo.tipoActivo.nombre}}</p>
+                        <p><b>Tipo de Ubicación: </b>{{activo.tipoUbicacion.nombre}}</p>
+                        <p><b>Confidencialidad: </b>{{cdi['confidencialidad'][activo.confidencialidad]}}</p>
+                        <p><b>Disponibilidad: </b>{{cdi['disponibilidad'][activo.disponibilidad]}}</p>
+                        <p><b>Integridad: </b>{{cdi['integridad'][activo.integridad]}}</p>
+                        <p><b>Sensibilidad: </b>{{cdi['sensibilidad'][activo.sensibilidad]}}</p>
+                        <h4>Datos del Responsable o Dueño</h4>
+                        {% if activo.idParticipante is none %}
+                        <p><b>NO HAY UN RESPONSABLE O DUEÑO ASIGNADO EN ESTE ACTIVO</b></p>
+                        {% else %}
+                        <p><b>Nombre: </b>{{activo.dueño_responsable.nombre}}</p>
+                        <p><b>Departamento: </b>{{activo.dueño_responsable.departamento}}</p>
+                        <p><b>Numero de Contacto: </b>{{activo.dueño_responsable.telefono}}</p>
+                        <p><b>Correo Electrónico de Contacto: </b>{{activo.dueño_responsable.correo}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

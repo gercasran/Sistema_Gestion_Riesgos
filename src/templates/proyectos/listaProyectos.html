@@ -1,0 +1,81 @@
+{% extends "templateNoSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="row pt-5" id="alertRow">
+    <div class="alert alert-{{messages[0]}} alert-dismissible fade show" role="alert">
+        {{messages[1]}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="closeAlert"></button>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row pt-2"></div>
+<div class="row pt-5 text-justify">
+    <h3>Bienvenido {{usuario.nombre}} {{usuario.apellidoPaterno}}</h3>
+    <p>En esta sección puedes crear, editar, eliminar y acceder a tus diferentes proyectos de software. Para que puedas
+        crear tu proyecto de software necesitamos el titulo del proyecto y una breve descripción de diccho proyecto.
+        Luego, podras registrarlo en el siguiente boton.
+    </p>
+</div>
+<div class="row pt-2">
+    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir Proyecto</button>
+    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Proyecto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/anadir-proyecto" method="post" autocomplete="off">
+                        <div class="mb-3">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre del proyecto" autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="descripcion" cols="30" rows="10" class="form-control" placeholder="Descripción del proyecto(Sin saltos de linea)"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark bg-black w-100">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-2">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre del proyecto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proyecto in proyectos %}
+                    <tr>
+                        <td>{{proyecto.nombre}}</td>
+                        <td>
+                            <button type="button" class="btn btn-light" idelemento="{{proyecto.idProyecto}}" onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                            <a href="/editar-proyecto/{{proyecto.idProyecto}}" class="btn btn-success"><i class="fa fa-pencil"></i></a>
+                            <a href="/eliminar-proyecto/{{proyecto.idProyecto}}" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></a>
+                            <a href="/seleccionar-proyecto/{{proyecto.idProyecto}}" class="btn btn-primary"><i class="fa fa-door-open"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="subtable text-justify" id="subtable_{{proyecto.idProyecto}}" style="display: none;">
+                        <td colspan="2">
+                            <h4>Descripción del proyecto</h4>
+                            <p>{{proyecto.descripcion}}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

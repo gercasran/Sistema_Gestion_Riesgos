@@ -1,0 +1,46 @@
+{% extends "templateSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="row pt-5" id="alertRow">
+    <div class="alert alert-{{messages[0]}} alert-dismissible fade show" role="alert">
+        {{messages[1]}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="closeAlert"></button>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row pt-2"><h2>Participantes del Proyecto</h2></div>
+<div class="row pt-2">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <th>Nombre del Participante</th>
+                <th>Departamento del Participante</th>
+                <th>Más información</th>
+            </thead>
+            <tbody>
+                {% for responsable in responsables %}
+                    <tr>
+                        <td>{{ responsable.nombre }}</td>
+                        <td>{{ responsable.departamento }}</td>
+                        <td>
+                            <button type="button" class="btn btn-light" idelemento="{{responsable.idResponsable}}" onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                        </td>
+                    </tr>
+                    <tr class="subtable text-justify" id="subtable_{{responsable.idResponsable}}" style="display: none;">
+                        <td colspan="3">
+                            <h4>Contacto del Participante</h4>
+                            <p><b>Teléfono: </b>{{responsable.telefono}}</p>
+                            <p><b>Correo electrónico: </b>{{responsable.correo}}</p>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
