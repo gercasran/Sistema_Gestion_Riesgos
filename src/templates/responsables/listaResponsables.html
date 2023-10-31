@@ -15,6 +15,39 @@
 {% endwith %}
 <div class="row pt-2"><h2>Participantes del Proyecto</h2></div>
 <div class="row pt-2">
+    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir Participante</button>
+    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Particicpante</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/anadir-responsable" method="post" autocomplete="off" id="formulario">
+                        <div class="mb-3">
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre Completo del Participante" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" name="departamento" class="form-control" placeholder="Departamento del Participante" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" name="telefono" class="form-control" placeholder="El telefono del Participante" pattern="(55|56)-[0-9]{4}-[0-9]{4}" required>
+                            <div class="form-text">Formato del telefono 55-1234-5678 o 56-1234-5678</div>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="Correo electrónico del Participante" required>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-dark bg-black w-100">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row pt-2">
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -29,6 +62,8 @@
                         <td>{{ responsable.departamento }}</td>
                         <td>
                             <button type="button" class="btn btn-light" idelemento="{{responsable.idResponsable}}" onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                            <a href="/edicion-responsable/{{responsable.idResponsable}}" class="btn btn-success"><i class="fa fa-pencil"></i></a>
+                            <a href="/eliminar-responsable/{{responsable.idResponsable}}" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                     <tr class="subtable text-justify" id="subtable_{{responsable.idResponsable}}" style="display: none;">

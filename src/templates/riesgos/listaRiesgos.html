@@ -13,7 +13,256 @@
 </div>
 {% endif %}
 {% endwith %}
-<div class="row pt-2"><h2>Riesgos</h2></div>
+<div class="row pt-2">
+    <h2>Riesgos</h2>
+</div>
+<div class="row pt-2">
+    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir
+        Riesgo</button>
+    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Registrar Riesgos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="/anadir-riesgo" method="post" autocomplete="off">
+                        <div class="row">
+                            <div class="mb-3">
+                                <input type="text" name="nombre" class="form-control" placeholder="Nombre del riesgo"
+                                    required autofocus>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <textarea name="descripcion" cols="30" rows="5" class="form-control"
+                                    placeholder="Descripción completa del riesgo(Sin saltos de linea)"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label">Selecciona el Activo (Su sensibilidad es el Impacto Técnico)
+                                </label>
+                                <select name="idActivo" class="form-select">
+                                    {% for activo in activos %}
+                                    <option value="{{activo.idActivo}}">{{activo.nombre}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <h3>Factores de Probabilidad</h3>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h3>Factores de Impacto</h3>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <h5>Agente de Amenaza</h5>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5>Impacto Técnico</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <input type="text" name="amenaza" class="form-control"
+                                    placeholder="Nombre del agente de amenaza" required>
+                            </div>
+                            <div class="col-6 mb-3 text-justify" style="position: absolute; left: 50%; overflow: auto;">
+                                <p>La sensibilidad del activo que se desea asociar a este riesgo está compuesta por tres
+                                    variables que definen el impacto técnico del riesgo. </p>
+
+                                <p>La primera variable se refiere a la confidencialidad de la información. Esto implica
+                                    proteger la privacidad y la confidencialidad de los datos y asegurarse de que solo
+                                    las personas autorizadas tengan acceso a la información crítica.</p>
+
+                                <p>La segunda variable aborda la disponibilidad del activo. La disponibilidad se refiere
+                                    a la capacidad de acceder y utilizar los recursos de manera ininterrumpida. </p>
+
+                                <p>La tercera variable se relaciona con la integridad de la información. La integridad
+                                    implica garantizar que los datos no se modifiquen de manera no autorizada o
+                                    inapropiada. </p>
+
+                                <p>Si no encuentra el activo deseado en este momento, le
+                                    recomendamos regresar al menú
+                                    de activos para darlo de alta y asegurarse de que se incluya en la evaluación de
+                                    riesgos de seguridad de la información.</p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Nivel de Habilidad</label>
+                                <select name="nivelHabilidad" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in factores_de_amenaza['nivel_de_habilidad'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Motivación</label>
+                                <select name="motivacion" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_amenaza['motivación'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Oportunidad</label>
+                                <select name="oportunidad" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_amenaza['oportunidad'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Tamaño</label>
+                                <select name="tamaño" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_amenaza['tamaño'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <h5>Vulnerabilidad del Activo</h5>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h5>Impacto Empresarial</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <input type="text" name="vulnerabilidad" class="form-control"
+                                    placeholder="Nombre de la vulnerabilidad del activo" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">
+                                    Evalúe el impacto empresarial considerando aspectos económicos, legales y la
+                                    privacidad
+                                    del usuario.</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Facilidad de Descubrimiento</label>
+                                <select name="facilidadDescubrimiento" class="form-select"
+                                    style="white-space: pre-line;" required>
+                                    {% for valor, opcion in
+                                    factores_de_vulnerabilidad['facilidad_de_descubrimiento'].items()
+                                    %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Daño Financiero</label>
+                                <select name="impactoFinanciero" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in factores_de_impacto_empresarial['daño_financiero'].items()
+                                    %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Facilidad de Explotación</label>
+                                <select name="facilidadExplotacion" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_vulnerabilidad['facilidad_de_explotación'].items()
+                                    %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Daño a la Reputación</label>
+                                <select name="impactoReputacion" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_impacto_empresarial['daño_a_la_reputación'].items()
+                                    %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Conciencia</label>
+                                <select name="conciencia" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_vulnerabilidad['conciencia'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Incumplimiento Legal</label>
+                                <select name="impactoLegal" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_impacto_empresarial['incumplimiento'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Detección de Intrusiones</label>
+                                <select name="deteccionIntrusiones" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_vulnerabilidad['detección_de_intrusiones'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Violación de la Privacidad</label>
+                                <select name="impactoUsuarios" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_impacto_empresarial['violación_de_la_privacidad'].items() %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label">Tipo de Riesgo</label>
+                                <select name="idTipoRiesgo" class="form-select">
+                                    {% for tipoRiesgo in tiposRiesgo %}
+                                    <option value="{{tipoRiesgo.idTipoRiesgo}}">{{tipoRiesgo.nombre}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <button type="submit" class="btn btn-dark bg-black w-100">Registrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row pt-2">
     <div class="table-responsive">
         <table class="table">
@@ -22,51 +271,57 @@
                 <th>Probabilidad</th>
                 <th>Impacto</th>
                 <th>Umbral Total</th>
+                <th>Acciones</th>
             </thead>
             <tbody>
                 {% for riesgo in riesgos_umbrales %}
-                    <tr>
-                        <td>{{ riesgo[0].nombre }}</td>
-                        {% if riesgo[1] == 'Bajo' %}
-                            <td style="background-color: green;">{{ riesgo[1] }}</td>
-                        {% elif riesgo[1] == 'Medio' %}
-                            <td style="background-color: yellow; color: black;">{{ riesgo[1] }}</td>
-                        {% else %}
-                            <td style="background-color: red">{{ riesgo[1] }}</td>
-                        {% endif %}
-                        {% if riesgo[2] == 'Bajo' %}
-                            <td style="background-color: green;">{{ riesgo[2] }}</td>
-                        {% elif riesgo[2] == 'Medio' %}
-                            <td style="background-color: yellow; color: black;">{{ riesgo[2] }}</td>
-                        {% else %}
-                            <td style="background-color: red;">{{ riesgo[2] }}</td>
-                        {% endif %}
-                        {% if riesgo[0].umbral == 'Insignificante' %}
-                            <td style="background-color: blue;">{{ riesgo[0].umbral }}</td>
-                        {% elif riesgo[0].umbral == 'Bajo' %}
-                            <td style="background-color: green;">{{ riesgo[1] }}</td>
-                        {% elif riesgo[0].umbral == 'Medio' %}
-                            <td style="background-color: yellow; color: black;">{{ riesgo[0].umbral }}</td>
-                        {% elif riesgo[0].umbral == 'Alto' %}
-                            <td style="background-color: orange; color: black;">{{ riesgo[0].umbral }}</td>
-                        {% else %}
-                            <td style="background-color: red;">{{ riesgo[0].umbral }}</td>
-                        {% endif %}
-                        <td>
-                            <button type="button" class="btn btn-light" idelemento="{{riesgo[0].idRiesgo}}" onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
-                        </td>
-                    </tr>
-                    <tr class="subtable text-justify" id="subtable_{{riesgo[0].idRiesgo}}" style="display: none;">
-                        <td colspan="6">
-                            <h4>Más información del Riesgo</h4>
-                            <p><b>Descripción: </b>{{riesgo[0].descripcion}}</p>
-                            <p><b>Tipo de Riesgo: </b>{{riesgo[0].tipoRiesgo.nombre}}</p>
-                            <p><b>Probabilidad: </b>{{umbrales['Probabilidad'][riesgo[1]]}}</p>
-                            <p><b>Impacto: </b>{{umbrales['Impacto'][riesgo[2]]}}</p>
-                            <p><b>Umbral Total: </b>{{umbrales['Umbral Total'][riesgo[0].umbral]}}</p>
-                            <p><b>Nombre del Activo asociado: </b>{{riesgo[0].activo.nombre}}</p>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ riesgo[0].nombre }}</td>
+                    {% if riesgo[1] == 'Bajo' %}
+                    <td style="background-color: green;">{{ riesgo[1] }}</td>
+                    {% elif riesgo[1] == 'Medio' %}
+                    <td style="background-color: yellow; color: black;">{{ riesgo[1] }}</td>
+                    {% else %}
+                    <td style="background-color: red">{{ riesgo[1] }}</td>
+                    {% endif %}
+                    {% if riesgo[2] == 'Bajo' %}
+                    <td style="background-color: green;">{{ riesgo[2] }}</td>
+                    {% elif riesgo[2] == 'Medio' %}
+                    <td style="background-color: yellow; color: black;">{{ riesgo[2] }}</td>
+                    {% else %}
+                    <td style="background-color: red;">{{ riesgo[2] }}</td>
+                    {% endif %}
+                    {% if riesgo[0].umbral == 'Insignificante' %}
+                    <td style="background-color: blue;">{{ riesgo[0].umbral }}</td>
+                    {% elif riesgo[0].umbral == 'Bajo' %}
+                    <td style="background-color: green;">{{ riesgo[1] }}</td>
+                    {% elif riesgo[0].umbral == 'Medio' %}
+                    <td style="background-color: yellow; color: black;">{{ riesgo[0].umbral }}</td>
+                    {% elif riesgo[0].umbral == 'Alto' %}
+                    <td style="background-color: orange; color: black;">{{ riesgo[0].umbral }}</td>
+                    {% else %}
+                    <td style="background-color: red;">{{ riesgo[0].umbral }}</td>
+                    {% endif %}
+                    <td>
+                        <button type="button" class="btn btn-light" idelemento="{{riesgo[0].idRiesgo}}"
+                            onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                        <a href="/modificar-riesgo/{{riesgo[0].idRiesgo}}" class="btn btn-success"><i
+                                class="fa fa-pencil"></i></a>
+                        <a href="/eliminar-riesgo/{{riesgo[0].idRiesgo}}" class="btn btn-danger btn-delete"><i
+                                class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                <tr class="subtable text-justify" id="subtable_{{riesgo[0].idRiesgo}}" style="display: none;">
+                    <td colspan="6">
+                        <h4>Más información del Riesgo</h4>
+                        <p><b>Descripción: </b>{{riesgo[0].descripcion}}</p>
+                        <p><b>Tipo de Riesgo: </b>{{riesgo[0].tipoRiesgo.nombre}}</p>
+                        <p><b>Probabilidad: </b>{{umbrales['Probabilidad'][riesgo[1]]}}</p>
+                        <p><b>Impacto: </b>{{umbrales['Impacto'][riesgo[2]]}}</p>
+                        <p><b>Umbral Total: </b>{{umbrales['Umbral Total'][riesgo[0].umbral]}}</p>
+                        <p><b>Nombre del Activo asociado: </b>{{riesgo[0].activo.nombre}}</p>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>

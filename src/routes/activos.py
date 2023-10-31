@@ -82,42 +82,7 @@ def vistaListaActivos():
         usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
         proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
         activos = proyecto.activos
-        return render_template('activos/listaActivos.html', usuario=usuario, activos=activos, cdi=cdi)
-
-@activos.route('/crear-activo')
-def vistaCrearActivos():
-    if not 'user_id' in session:
-        return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        return render_template('activos/altaActivos.html', usuario=usuario, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all(), participantes=proyecto.responsables)
-
-@activos.route('/borrar-activo')
-def vistaBorrarActivos():
-    if not 'user_id' in session:
-        return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        activos = proyecto.activos
-        return render_template('activos/listaBorrarActivos.html', usuario=usuario, activos=activos, cdi=cdi)
-
-@activos.route('/editar-activo')
-def vistaEditarActivos():
-    if not 'user_id' in session:
-        return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        activos = proyecto.activos
-        return render_template('activos/listaEdicionActivos.html', usuario=usuario, activos=activos, cdi=cdi)
+        return render_template('activos/listaActivos.html', usuario=usuario, activos=activos, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all(), participantes=proyecto.responsables)
 
 @activos.route('/modificar-activo/<string:idActivo>')
 def vistaModificacionActivos(idActivo):

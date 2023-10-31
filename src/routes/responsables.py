@@ -19,40 +19,6 @@ def vistaListaResponsables():
         responsables = proyecto.responsables
         return render_template('responsables/listaResponsables.html', usuario=usuario, responsables=responsables)
 
-@responsables.route('/crear-responsable')
-def vistaCrearResponsables():
-    if not 'user_id' in session:
-        return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        return render_template('responsables/altaResponsables.html', usuario=usuario)
-
-@responsables.route('/borrar-responsable')
-def vistaBorrarResponsables():
-    if not 'user_id' in session:
-        return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        responsables = proyecto.responsables
-        return render_template('responsables/listaBorrarResponsables.html', usuario=usuario, responsables=responsables)
-
-@responsables.route('/editar-responsable')
-def vistaEditarResponsables():
-    if not 'user_id' in session:
-        return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        responsables = proyecto.responsables
-        return render_template('responsables/listaEdicionResponsables.html', usuario=usuario, responsables=responsables)
-
 @responsables.route('/edicion-responsable/<string:idResponsable>')
 def vistaEdicionResponsables(idResponsable):
     if not 'user_id' in session:

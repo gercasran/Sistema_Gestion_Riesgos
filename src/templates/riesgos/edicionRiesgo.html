@@ -24,6 +24,19 @@
                             placeholder="Descripción completa del riesgo(Sin saltos de linea)">{{riesgo.descripcion}}</textarea>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Selecciona el Activo (Su sensibilidad es el Impacto Técnico)
+                        </label>
+                        <select name="idActivo" class="form-select">
+                            {% for activo in activos %}
+                            {% if riesgo.idActivo == activo.idActivo %}
+                            <option value="{{activo.idActivo}}" selected>{{activo.nombre}}</option>
+                            {% else %}
+                            <option value="{{activo.idActivo}}" selected>{{activo.nombre}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
                         <h3>Factores de Probabilidad</h3>
                     </div>
                     <div class="mb-3">
@@ -38,41 +51,17 @@
                             <label class="form-label">Nivel de Habilidad</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="nivelHabilidad" class="form-select" required>
-                                    {% for valor in factores_de_amenaza['nivel_de_habilidad'].keys() %}
+                            <div class="col-12">
+                                <select name="nivelHabilidad" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in factores_de_amenaza['nivel_de_habilidad'].items() %}
                                     {% if riesgo.nivelHabilidad == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaNivelHabilidad"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaNivelHabilidad" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar el Nivel de Habilidad</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Refleja cuán expertos son los atacantes potenciales. Desde aquellos
-                                                    que no tienen habilidades técnicas hasta los expertos supremos que
-                                                    son los mejores en lo que hacen.</p>
-                                                {% for valor, opcion in
-                                                factores_de_amenaza['nivel_de_habilidad'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,40 +70,16 @@
                             <label class="form-label">Motivación</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="motivacion" class="form-select" required>
-                                    {% for valor in factores_de_amenaza['motivación'].keys() %}
+                            <div class="col-12">
+                                <select name="motivacion" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_amenaza['motivación'].items() %}
                                     {% if riesgo.motivacion == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaMotivacion"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaMotivacion" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar la Motivación</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Muestra qué tan motivados están los atacantes para encontrar y
-                                                    explotar vulnerabilidades. Desde una motivación baja o nula hasta
-                                                    una motivación máxima de fanáticos.</p>
-                                                {% for valor, opcion in factores_de_amenaza['motivación'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -123,80 +88,34 @@
                             <label class="form-label">Oportunidad</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="oportunidad" class="form-select" required>
-                                    {% for valor in factores_de_amenaza['oportunidad'].keys() %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                            <div class="col-12">
+                                <select name="oportunidad" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_amenaza['oportunidad'].items() %}
+                                    {% if riesgo.oportunidad == valor %}
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
+                                    {% else %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaOportunidad"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaOportunidad" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar la Oportunidad</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Indica qué recursos y oportunidades necesitan los atacantes. Desde un
-                                                    acceso extremadamente limitado hasta un acceso constante sin
-                                                    restricciones.</p>
-                                                {% for valor, opcion in factores_de_amenaza['oportunidad'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="mb-3">
-                            <div class="row">
-                                <label class="form-label">Tamaño</label>
-                            </div>
-                            <div class="row">
-                                <div class="col-10">
-                                    <select name="tamaño" class="form-select" required>
-                                        {% for valor in factores_de_amenaza['tamaño'].keys() %}
-                                        {% if riesgo.tamaño == valor %}
-                                        <option value="{{valor}}" selected>{{valor}}</option>
-                                        {% else %}
-                                        <option value="{{valor}}">{{valor}}</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                        data-bs-target="#VentanaTamaño"><i class="fa fa-question"></i></button>
-                                    <div class="modal fade" id="VentanaTamaño" data-bs-backdrop="static"
-                                        data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Evaluar el Tamaño</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body text-justify">
-                                                    <p>Describe el tamaño del grupo de atacantes. Desde grupos muy
-                                                        pequeños como desarrolladores hasta grupos extremadamente
-                                                        masivos y organizados.</p>
-                                                    {% for valor, opcion in factores_de_amenaza['tamaño'].items() %}
-                                                    <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <label class="form-label">Tamaño</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <select name="tamaño" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_amenaza['tamaño'].items() %}
+                                    {% if riesgo.tamaño == valor %}
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
+                                    {% else %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -213,42 +132,19 @@
                             <label class="form-label">Facilidad de Descubrimiento</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="facilidadDescubrimiento" class="form-select" required>
-                                    {% for valor in factores_de_vulnerabilidad['facilidad_de_descubrimiento'].keys()
+                            <div class="col-12">
+                                <select name="facilidadDescubrimiento" class="form-select"
+                                    style="white-space: pre-line;" required>
+                                    {% for valor, opcion in
+                                    factores_de_vulnerabilidad['facilidad_de_descubrimiento'].items()
                                     %}
                                     {% if riesgo.facilidadDescubrimiento == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaDescubrimiento"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaDescubrimiento" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar la Facilidad de Descubrimiento</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p> Evalúa cuán fácil es para los atacantes descubrir la
-                                                    vulnerabilidad. Desde prácticamente imposible de descubrir hasta
-                                                    ampliamente conocido y constantemente detectado.</p>
-                                                {% for valor, opcion in
-                                                factores_de_vulnerabilidad['facilidad_de_descubrimiento'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -257,41 +153,18 @@
                             <label class="form-label">Facilidad de Explotación</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="facilidadExplotacion" class="form-select" required>
-                                    {% for valor in factores_de_vulnerabilidad['facilidad_de_explotación'].keys() %}
+                            <div class="col-12">
+                                <select name="facilidadExplotacion" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_vulnerabilidad['facilidad_de_explotación'].items() %}
                                     {% if riesgo.facilidadExplotacion == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaExplotacion"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaExplotacion" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar la Facilidad de Explotación</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Mide lo fácil que es para los atacantes aprovechar una
-                                                    vulnerabilidad. Desde extremadamente difícil hasta ampliamente
-                                                    conocido y explotado sin esfuerzo.</p>
-                                                {% for valor, opcion in
-                                                factores_de_vulnerabilidad['facilidad_de_explotación'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -300,109 +173,41 @@
                             <label class="form-label">Conciencia</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="conciencia" class="form-select" required>
-                                    {% for valor in factores_de_vulnerabilidad['conciencia'].keys() %}
+                            <div class="col-12">
+                                <select name="conciencia" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_vulnerabilidad['conciencia'].items() %}
                                     {% if riesgo.conciencia == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaConciencia"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaConciencia" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar la Conciencia</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p> Indica qué tan conocida es la vulnerabilidad por parte de los
-                                                    atacantes. Desde desconocido hasta excepcionalmente conocido y
-                                                    una amenaza constante y grave.</p>
-                                                {% for valor, opcion in
-                                                factores_de_vulnerabilidad['conciencia'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="mb-3">
-                            <div class="row">
-                                <label class="form-label">Detección de Intrusiones</label>
-                            </div>
-                            <div class="row">
-                                <div class="col-10">
-                                    <select name="deteccionIntrusiones" class="form-select" required>
-                                        {% for valor in
-                                        factores_de_vulnerabilidad['detección_de_intrusiones'].keys() %}
-                                        {% if riesgo.deteccionIntrusiones == valor %}
-                                        <option value="{{valor}}" selected>{{valor}}</option>
-                                        {% else %}
-                                        <option value="{{valor}}">{{valor}}</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                        data-bs-target="#VentanaIntrusiones"><i class="fa fa-question"></i></button>
-                                    <div class="modal fade" id="VentanaIntrusiones" data-bs-backdrop="static"
-                                        data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Evaluar la Detección de Intrusiones</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body text-justify">
-                                                    <p>Evalúa la probabilidad de detectar un intento de explotación.
-                                                        Desde muy improbable de detectar hasta casi seguro de ser
-                                                        detectado.</p>
-                                                    {% for valor, opcion in
-                                                    factores_de_vulnerabilidad['detección_de_intrusiones'].items()
-                                                    %}
-                                                    <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <label class="form-label">Detección de Intrusiones</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <select name="deteccionIntrusiones" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_vulnerabilidad['detección_de_intrusiones'].items() %}
+                                    {% if riesgo.deteccionIntrusiones == valor %}
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
+                                    {% else %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <h3>Factores de Impacto</h3>
-                    </div>
-                    <div class="mb-3">
-                        <h5>Impacto Técnico</h5>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Selecciona el Activo (Su sensibilidad es el Impacto Técnico)
-                        </label>
-                        <select name="idActivo" class="form-select">
-                            {% for activo in activos %}
-                            {% if riesgo.idActivo == activo.idActivo %}
-                                <option value="{{activo.idActivo}}" selected>{{activo.nombre}}</option>
-                            {% else %}
-                                <option value="{{activo.idActivo}}" selected>{{activo.nombre}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
                     </div>
                     <div class="mb-3">
                         <h5>Impacto Empresarial</h5>
@@ -412,41 +217,18 @@
                             <label class="form-label">Daño Financiero</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="impactoFinanciero" class="form-select" required>
-                                    {% for valor in factores_de_impacto_empresarial['daño_financiero'].keys() %}
+                            <div class="col-12">
+                                <select name="impactoFinanciero" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in factores_de_impacto_empresarial['daño_financiero'].items()
+                                    %}
                                     {% if riesgo.impactoFinanciero == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaFinanciero"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaFinanciero" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar el Daño Financiero</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Representa el costo económico del daño causado por un ataque. Desde
-                                                    daño financiero mínimo hasta el potencial de llevar a la quiebra.
-                                                </p>
-                                                {% for valor, opcion in
-                                                factores_de_impacto_empresarial['daño_financiero'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -455,41 +237,18 @@
                             <label class="form-label">Daño a la Reputación</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="impactoReputacion" class="form-select" required>
-                                    {% for valor in factores_de_impacto_empresarial['daño_a_la_reputación'].keys() %}
+                            <div class="col-12">
+                                <select name="impactoReputacion" class="form-select" style="white-space: pre-line;"
+                                    required>
+                                    {% for valor, opcion in
+                                    factores_de_impacto_empresarial['daño_a_la_reputación'].items() %}
                                     {% if riesgo.impactoReputacion == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaReputación"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaReputación" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar el Daño a la Reputación</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Refleja cómo un ataque podría afectar la percepción de la empresa.
-                                                    Desde un daño mínimo hasta daños irreparables y potencialmente
-                                                    fatales para la marca.</p>
-                                                {% for valor, opcion in
-                                                factores_de_impacto_empresarial['daño_a_la_reputación'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -498,89 +257,35 @@
                             <label class="form-label">Incumplimiento Legal</label>
                         </div>
                         <div class="row">
-                            <div class="col-10">
-                                <select name="impactoLegal" class="form-select" required>
-                                    {% for valor in factores_de_impacto_empresarial['incumplimiento'].keys() %}
+                            <div class="col-12">
+                                <select name="impactoLegal" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in factores_de_impacto_empresarial['incumplimiento'].items() %}
                                     {% if riesgo.impactoLegal == valor %}
-                                    <option value="{{valor}}" selected>{{valor}}</option>
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
                                     {% else %}
-                                    <option value="{{valor}}">{{valor}}</option>
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                    data-bs-target="#VentanaIncumplimiento"><i class="fa fa-question"></i></button>
-                                <div class="modal fade" id="VentanaIncumplimiento" data-bs-backdrop="static"
-                                    data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">Evaluar el Incumplimiento Legal</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-justify">
-                                                <p>Evalúa el grado de exposición legal resultante del ataque. Desde una
-                                                    infracción menor hasta un incumplimiento potencialmente fatal para
-                                                    la organización.</p>
-                                                {% for valor, opcion in
-                                                factores_de_impacto_empresarial['incumplimiento'].items() %}
-                                                <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="mb-3">
-                            <div class="row">
-                                <label class="form-label">Violación de la Privacidad</label>
-                            </div>
-                            <div class="row">
-                                <div class="col-10">
-                                    <select name="impactoUsuarios" class="form-select" required>
-                                        {% for valor in
-                                        factores_de_impacto_empresarial['violación_de_la_privacidad'].keys() %}
-                                        {% if riesgo.impactoUsuarios == valor %}
-                                        <option value="{{valor}}" selected>{{valor}}</option>
-                                        {% else %}
-                                        <option value="{{valor}}">{{valor}}</option>
-                                        {% endif %}
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal"
-                                        data-bs-target="#VentanaPrivacidad"><i class="fa fa-question"></i></button>
-                                    <div class="modal fade" id="VentanaPrivacidad" data-bs-backdrop="static"
-                                        data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">Evaluar la Evaluación de la Privacidad</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body text-justify">
-                                                    <p>Indica cuánta información personal identificable podría
-                                                        divulgarse. Desde la exposición de información personal de un
-                                                        individuo hasta la de un número excepcionalmente grande de
-                                                        personas.</p>
-                                                    {% for valor, opcion in
-                                                    factores_de_impacto_empresarial['violación_de_la_privacidad'].items()
-                                                    %}
-                                                    <p><b>Valor {{valor}}: </b>{{opcion}}</p>
-                                                    {% endfor %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div class="row">
+                            <label class="form-label">Violación de la Privacidad</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <select name="impactoUsuarios" class="form-select" style="white-space: pre-line;" required>
+                                    {% for valor, opcion in
+                                    factores_de_impacto_empresarial['violación_de_la_privacidad'].items() %}
+                                    {% if riesgo.impactoUsuarios == valor %}
+                                    <option value="{{valor}}" selected>{{valor}}: {{opcion}}</option>
+                                    {% else %}
+                                    <option value="{{valor}}">{{valor}}: {{opcion}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -589,7 +294,7 @@
                         <select name="idTipoRiesgo" class="form-select">
                             {% for tipoRiesgo in tiposRiesgo %}
                             {% if riesgo.idTipoRiesgo == tipoRiesgo.idTipoRiesgo %}
-                                <option value="{{tipoRiesgo.idTipoRiesgo}}" selected>{{tipoRiesgo.nombre}}</option>
+                            <option value="{{tipoRiesgo.idTipoRiesgo}}" selected>{{tipoRiesgo.nombre}}</option>
                             {% else %}
                             <option value="{{tipoRiesgo.idTipoRiesgo}}">{{tipoRiesgo.nombre}}</option>
                             {% endif %}
