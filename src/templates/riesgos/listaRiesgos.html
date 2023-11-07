@@ -303,23 +303,12 @@
                     <td style="background-color: red;">{{ riesgo[0].umbral }}</td>
                     {% endif %}
                     <td>
-                        <button type="button" class="btn btn-light" idelemento="{{riesgo[0].idRiesgo}}"
-                            onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#Ventana{{riesgo[0].idRiesgo}}"><i class="fa fa-plus"></i></button>
                         <a href="/modificar-riesgo/{{riesgo[0].idRiesgo}}" class="btn btn-success"><i
                                 class="fa fa-pencil"></i></a>
                         <a href="/eliminar-riesgo/{{riesgo[0].idRiesgo}}" class="btn btn-danger btn-delete"><i
                                 class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr class="subtable text-justify" id="subtable_{{riesgo[0].idRiesgo}}" style="display: none;">
-                    <td colspan="6">
-                        <h4>Más información del Riesgo</h4>
-                        <p><b>Descripción: </b>{{riesgo[0].descripcion}}</p>
-                        <p><b>Tipo de Riesgo: </b>{{riesgo[0].tipoRiesgo.nombre}}</p>
-                        <p><b>Probabilidad: </b>{{umbrales['Probabilidad'][riesgo[1]]}}</p>
-                        <p><b>Impacto: </b>{{umbrales['Impacto'][riesgo[2]]}}</p>
-                        <p><b>Umbral Total: </b>{{umbrales['Umbral Total'][riesgo[0].umbral]}}</p>
-                        <p><b>Nombre del Activo asociado: </b>{{riesgo[0].activo.nombre}}</p>
                     </td>
                 </tr>
                 {% endfor %}
@@ -327,4 +316,25 @@
         </table>
     </div>
 </div>
+{% for riesgo in riesgos_umbrales %}
+<div class="modal fade" id="Ventana{{riesgo[0].idRiesgo}}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Riesgo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-justify">
+                <p><b>Descripción: </b>{{riesgo[0].descripcion}}</p>
+                <p><b>Tipo de Riesgo: </b>{{riesgo[0].tipoRiesgo.nombre}}</p>
+                <p><b>Probabilidad: </b>{{umbrales['Probabilidad'][riesgo[1]]}}</p>
+                <p><b>Impacto: </b>{{umbrales['Impacto'][riesgo[2]]}}</p>
+                <p><b>Umbral Total: </b>{{umbrales['Umbral Total'][riesgo[0].umbral]}}</p>
+                <p><b>Nombre del Activo asociado: </b>{{riesgo[0].activo.nombre}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

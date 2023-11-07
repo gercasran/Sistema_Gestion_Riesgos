@@ -22,8 +22,10 @@
     </p>
 </div>
 <div class="row pt-2">
-    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir Proyecto</button>
-    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir
+        Proyecto</button>
+    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -33,10 +35,12 @@
                 <div class="modal-body">
                     <form action="/anadir-proyecto" method="post" autocomplete="off">
                         <div class="mb-3">
-                            <input type="text" name="nombre" class="form-control" placeholder="Nombre del proyecto" autofocus>
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre del proyecto"
+                                autofocus>
                         </div>
                         <div class="mb-3">
-                            <textarea name="descripcion" cols="30" rows="10" class="form-control" placeholder="Descripción del proyecto(Sin saltos de linea)"></textarea>
+                            <textarea name="descripcion" cols="30" rows="10" class="form-control"
+                                placeholder="Descripción del proyecto(Sin saltos de linea)"></textarea>
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-dark bg-black w-100">Registrar</button>
@@ -58,24 +62,40 @@
             </thead>
             <tbody>
                 {% for proyecto in proyectos %}
-                    <tr>
-                        <td>{{proyecto.nombre}}</td>
-                        <td>
-                            <button type="button" class="btn btn-light" idelemento="{{proyecto.idProyecto}}" onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
-                            <a href="/editar-proyecto/{{proyecto.idProyecto}}" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                            <a href="/eliminar-proyecto/{{proyecto.idProyecto}}" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></a>
-                            <a href="/seleccionar-proyecto/{{proyecto.idProyecto}}" class="btn btn-primary"><i class="fa fa-door-open"></i></a>
-                        </td>
-                    </tr>
-                    <tr class="subtable text-justify" id="subtable_{{proyecto.idProyecto}}" style="display: none;">
-                        <td colspan="2">
-                            <h4>Descripción del proyecto</h4>
-                            <p>{{proyecto.descripcion}}</p>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{proyecto.nombre}}</td>
+                    <td>
+                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#Ventana{{proyecto.idProyecto}}"><i class="fa fa-plus"></i></button>
+                        <a href="/editar-proyecto/{{proyecto.idProyecto}}" class="btn btn-success"><i
+                                class="fa fa-pencil"></i></a>
+                        <a href="/eliminar-proyecto/{{proyecto.idProyecto}}" class="btn btn-danger btn-delete"><i
+                                class="fa fa-trash"></i></a>
+                        <a href="/seleccionar-proyecto/{{proyecto.idProyecto}}" class="btn btn-primary"><i
+                                class="fa fa-door-open"></i></a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+{% for proyecto in proyectos %}
+<div class="modal fade" id="Ventana{{proyecto.idProyecto}}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Proyecto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-justify">
+                <h4>Descripción del proyecto</h4>
+                <p>{{proyecto.descripcion}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
 {% endblock %}

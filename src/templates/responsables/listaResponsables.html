@@ -13,10 +13,14 @@
 </div>
 {% endif %}
 {% endwith %}
-<div class="row pt-2"><h2>Participantes del Proyecto</h2></div>
 <div class="row pt-2">
-    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir Participante</button>
-    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <h2>Participantes del Proyecto</h2>
+</div>
+<div class="row pt-2">
+    <button type="button" class="btn btn-dark bg-black w-100" data-bs-toggle="modal" data-bs-target="#VentanaAdd">Añadir
+        Participante</button>
+    <div class="modal fade" id="VentanaAdd" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -26,17 +30,21 @@
                 <div class="modal-body">
                     <form action="/anadir-responsable" method="post" autocomplete="off" id="formulario">
                         <div class="mb-3">
-                            <input type="text" name="nombre" class="form-control" placeholder="Nombre Completo del Participante" required autofocus>
+                            <input type="text" name="nombre" class="form-control"
+                                placeholder="Nombre Completo del Participante" required autofocus>
                         </div>
                         <div class="mb-3">
-                            <input type="text" name="departamento" class="form-control" placeholder="Departamento del Participante" required>
+                            <input type="text" name="departamento" class="form-control"
+                                placeholder="Departamento del Participante" required>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" name="telefono" class="form-control" placeholder="El telefono del Participante" pattern="(55|56)-[0-9]{4}-[0-9]{4}" required>
+                            <input type="tel" name="telefono" class="form-control"
+                                placeholder="El telefono del Participante" pattern="(55|56)-[0-9]{4}-[0-9]{4}" required>
                             <div class="form-text">Formato del telefono 55-1234-5678 o 56-1234-5678</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" name="email" class="form-control" placeholder="Correo electrónico del Participante" required>
+                            <input type="email" name="email" class="form-control"
+                                placeholder="Correo electrónico del Participante" required>
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-dark bg-black w-100">Registrar</button>
@@ -57,25 +65,39 @@
             </thead>
             <tbody>
                 {% for responsable in responsables %}
-                    <tr>
-                        <td>{{ responsable.nombre }}</td>
-                        <td>{{ responsable.departamento }}</td>
-                        <td>
-                            <button type="button" class="btn btn-light" idelemento="{{responsable.idResponsable}}" onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
-                            <a href="/edicion-responsable/{{responsable.idResponsable}}" class="btn btn-success"><i class="fa fa-pencil"></i></a>
-                            <a href="/eliminar-responsable/{{responsable.idResponsable}}" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <tr class="subtable text-justify" id="subtable_{{responsable.idResponsable}}" style="display: none;">
-                        <td colspan="3">
-                            <h4>Contacto del Participante</h4>
-                            <p><b>Teléfono: </b>{{responsable.telefono}}</p>
-                            <p><b>Correo electrónico: </b>{{responsable.correo}}</p>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ responsable.nombre }}</td>
+                    <td>{{ responsable.departamento }}</td>
+                    <td>
+                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#Ventana{{responsable.idResponsable}}"><i class="fa fa-plus"></i></button>
+                        <a href="/edicion-responsable/{{responsable.idResponsable}}" class="btn btn-success"><i
+                                class="fa fa-pencil"></i></a>
+                        <a href="/eliminar-responsable/{{responsable.idResponsable}}"
+                            class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
+{% for responsable in responsables %}
+<div class="modal fade" id="Ventana{{responsable.idResponsable}}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Participante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-justify">
+                <h4>Contacto del Participante</h4>
+                <p><b>Teléfono: </b>{{responsable.telefono}}</p>
+                <p><b>Correo electrónico: </b>{{responsable.correo}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

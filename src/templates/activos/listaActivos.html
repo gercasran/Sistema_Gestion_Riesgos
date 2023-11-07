@@ -44,7 +44,8 @@
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <label class="form-label">Confidencialidad</label>
-                                <select name="confidencialidad" class="form-select" style="white-space: pre-line;" required>
+                                <select name="confidencialidad" class="form-select" style="white-space: pre-line;"
+                                    required>
                                     {% for valor, opcion in cdi['confidencialidad'].items() %}
                                     <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endfor %}
@@ -62,7 +63,8 @@
                         <div class="row">
                             <div class="col-6 mb-3">
                                 <label class="form-label">Disponibilidad</label>
-                                <select name="disponibilidad" class="form-select" style="white-space: pre-line;" required>
+                                <select name="disponibilidad" class="form-select" style="white-space: pre-line;"
+                                    required>
                                     {% for valor, opcion in cdi['disponibilidad'].items() %}
                                     <option value="{{valor}}">{{valor}}: {{opcion}}</option>
                                     {% endfor %}
@@ -128,33 +130,12 @@
                     <td>{{ activo.integridad }}</td>
                     <td>{{ activo.sensibilidad }}</td>
                     <td>
-                        <button type="button" class="btn btn-light" idelemento="{{activo.idActivo}}"
-                            onclick="mostrarSubTabla(this)"><i class="fa fa-plus"></i></button>
+                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                            data-bs-target="#Ventana{{activo.idActivo}}"><i class="fa fa-plus"></i></button>
                         <a href="/modificar-activo/{{activo.idActivo}}" class="btn btn-success"><i
                                 class="fa fa-pencil"></i></a>
                         <a href="/eliminar-activo/{{activo.idActivo}}" class="btn btn-danger btn-delete"><i
                                 class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr class="subtable text-justify" id="subtable_{{activo.idActivo}}" style="display: none;">
-                    <td colspan="6">
-                        <h4>Más información del activo</h4>
-                        <p><b>Descripción: </b>{{activo.descripcion}}</p>
-                        <p><b>Tipo de Activo: </b>{{activo.tipoActivo.nombre}}</p>
-                        <p><b>Tipo de Ubicación: </b>{{activo.tipoUbicacion.nombre}}</p>
-                        <p><b>Confidencialidad: </b>{{cdi['confidencialidad'][activo.confidencialidad]}}</p>
-                        <p><b>Disponibilidad: </b>{{cdi['disponibilidad'][activo.disponibilidad]}}</p>
-                        <p><b>Integridad: </b>{{cdi['integridad'][activo.integridad]}}</p>
-                        <p><b>Sensibilidad: </b>{{cdi['sensibilidad'][activo.sensibilidad]}}</p>
-                        <h4>Datos del Responsable o Dueño</h4>
-                        {% if activo.idParticipante is none %}
-                        <p><b>NO HAY UN RESPONSABLE O DUEÑO ASIGNADO EN ESTE ACTIVO</b></p>
-                        {% else %}
-                        <p><b>Nombre: </b>{{activo.dueño_responsable.nombre}}</p>
-                        <p><b>Departamento: </b>{{activo.dueño_responsable.departamento}}</p>
-                        <p><b>Numero de Contacto: </b>{{activo.dueño_responsable.telefono}}</p>
-                        <p><b>Correo Electrónico de Contacto: </b>{{activo.dueño_responsable.correo}}</p>
-                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -162,4 +143,45 @@
         </table>
     </div>
 </div>
+{% for activo in activos %}
+<div class="modal fade" id="Ventana{{activo.idActivo}}" data-bs-backdrop="static" data-bs-keyboard="false"
+    tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Activo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-justify">
+                <p><b>Descripción: </b>{{activo.descripcion}}</p>
+                <p><b>Tipo de Activo: </b>{{activo.tipoActivo.nombre}}</p>
+                <p><b>Tipo de Ubicación: </b>{{activo.tipoUbicacion.nombre}}</p>
+                <p><b>Confidencialidad: </b>{{cdi['confidencialidad'][activo.confidencialidad]}}</p>
+                <p><b>Disponibilidad: </b>{{cdi['disponibilidad'][activo.disponibilidad]}}</p>
+                <p><b>Integridad: </b>{{cdi['integridad'][activo.integridad]}}</p>
+                <p><b>Sensibilidad: </b>{{cdi['sensibilidad'][activo.sensibilidad]}}</p>
+                <h4>Datos del Responsable o Dueño</h4>
+                {% if activo.idParticipante is none %}
+                <p><b>NO HAY UN RESPONSABLE O DUEÑO ASIGNADO EN ESTE ACTIVO</b></p>
+                {% else %}
+                <p><b>Nombre: </b>{{activo.dueño_responsable.nombre}}</p>
+                <p><b>Departamento: </b>{{activo.dueño_responsable.departamento}}</p>
+                <p><b>Numero de Contacto: </b>{{activo.dueño_responsable.telefono}}</p>
+                <p><b>Correo Electrónico de Contacto: </b>{{activo.dueño_responsable.correo}}</p>
+                {% endif %}
+                <h4>Riesgos identificados</h4>
+                {% if activo.riesgos|length > 0 %}
+                <ol>
+                    {% for riesgo in activo.riesgos %}
+                        <li>{{riesgo.nombre}} | Umbral: {{riesgo.umbral}}</li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                <p>No se han identificado riesgos en este activo.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
 {% endblock %}
