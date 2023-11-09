@@ -144,8 +144,8 @@
     </div>
 </div>
 {% for activo in activos %}
-<div class="modal fade" id="Ventana{{activo.idActivo}}" data-bs-backdrop="static" data-bs-keyboard="false"
-    tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="Ventana{{activo.idActivo}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
@@ -173,7 +173,7 @@
                 {% if activo.riesgos|length > 0 %}
                 <ol>
                     {% for riesgo in activo.riesgos %}
-                        <li>{{riesgo.nombre}} | Umbral: {{riesgo.umbral}}</li>
+                    <li>{{riesgo.nombre}} | Umbral: {{riesgo.umbral}}</li>
                     {% endfor %}
                 </ol>
                 {% else %}
@@ -184,4 +184,29 @@
     </div>
 </div>
 {% endfor %}
+<script>
+    $(document).ready(function () {
+        $('.table').DataTable({
+            "lengthChange": false,
+            "paging": false,
+            "info": false,
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes"
+            },
+            "columnDefs": [
+                {
+                    "orderable": false, // Deshabilitar ordenamiento
+                    "searchable": true, // Permitir búsqueda
+                    "targets": 0 // Primera columna
+                },
+                {
+                    "orderable": false, // Deshabilitar ordenamiento
+                    "searchable": false, // Deshabilitar búsqueda
+                    "targets": 5 // Sexta columna
+                }
+            ]
+        });
+    });
+</script>
 {% endblock %}

@@ -268,9 +268,9 @@
         <table class="table">
             <thead>
                 <th>Nombre del Riesgo</th>
-                <th>Probabilidad</th>
-                <th>Impacto</th>
-                <th>Umbral Total</th>
+                <th class="custom-sort">Probabilidad</th>
+                <th class="custom-sort">Impacto</th>
+                <th class="custom-sort">Umbral Total</th>
                 <th>Acciones</th>
             </thead>
             <tbody>
@@ -337,4 +337,46 @@
     </div>
 </div>
 {% endfor %}
+<script>
+    $(document).ready(function () {
+        var customSortType = $.fn.dataTable.ext.type.order['custom-sort'];
+        var order = { 'Insignificante': 1, 'Bajo': 2, 'Medio': 3, 'Alto': 4, 'Crítico': 5 };
+
+        $.fn.dataTable.ext.type.order['custom-sort-asc'] = function (a, b) {
+            return order[a] - order[b];
+        };
+
+        $.fn.dataTable.ext.type.order['custom-sort-desc'] = function (a, b) {
+            return order[b] - order[a];
+        };
+
+        $('.table').DataTable({
+            "lengthChange": false,
+            "paging": false,
+            "info": false,
+            "language": {
+                "search": "Buscar:",
+                "zeroRecords": "No se encontraron registros coincidentes"
+            },
+            "columnDefs": [
+                {
+                    "orderable": false, // Deshabilitar ordenamiento
+                    "searchable": true, // Permitir búsqueda
+                    "targets": [0] // Primera columna
+                },
+                {
+                    "orderable": true,
+                    "searchable": false, // Deshabilitar búsqueda
+                    "targets": "custom-sort",
+                    "type": "custom-sort" // Usar el tipo de datos personalizado para la ordenación
+                },
+                {
+                    "orderable": false, // Deshabilitar ordenamiento
+                    "searchable": false, // Deshabilitar búsqueda
+                    "targets": [-1] // Última columna
+                }
+            ]
+        });
+    });
+</script>
 {% endblock %}

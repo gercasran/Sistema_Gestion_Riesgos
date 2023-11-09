@@ -85,3 +85,7 @@
 .navbar .dropdown-menu a:hover {
     color: #007bff; 
 }
+
+.dataTables_filter label {
+    color: #fff; /* Cambia esto al color que desees */
+}
