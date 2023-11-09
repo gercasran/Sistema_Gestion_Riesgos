@@ -115,10 +115,10 @@
         <table class="table">
             <thead>
                 <th>Nombre del Activo</th>
-                <th>Confidencialidad</th>
-                <th>Disponibilidad</th>
-                <th>Integridad</th>
-                <th>Sensibilidad</th>
+                <th class="custom-sort">Confidencialidad</th>
+                <th class="custom-sort">Disponibilidad</th>
+                <th class="custom-sort">Integridad</th>
+                <th class="custom-sort">Sensibilidad</th>
                 <th>Acciones</th>
             </thead>
             <tbody>
@@ -198,12 +198,17 @@
                 {
                     "orderable": false, // Deshabilitar ordenamiento
                     "searchable": true, // Permitir búsqueda
-                    "targets": 0 // Primera columna
+                    "targets": [0] // Primera columna
+                },
+                {
+                    "orderable": true,
+                    "searchable": false, // Deshabilitar búsqueda
+                    "targets": "custom-sort",
                 },
                 {
                     "orderable": false, // Deshabilitar ordenamiento
                     "searchable": false, // Deshabilitar búsqueda
-                    "targets": 5 // Sexta columna
+                    "targets": [-1] // Última columna
                 }
             ]
         });
