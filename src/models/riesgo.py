@@ -68,6 +68,33 @@ class Riesgo(db.Model):
         self.total = self.probabilidad * self.impacto
         umbralProbabilidad = definirUmbral(self.probabilidad)
         umbralImpacto = definirUmbral(self.impacto)
+        """
+        if self.impacto <= 5.9:
+            if self.probabilidad <= 5.9:
+                if self.probabilidad <= 2.9:
+                    if self.impacto <= 2.9:
+                        self.umbral = 'Insignificante'
+                    else:
+                        self.umbral = 'Bajo'
+                else:
+                    if self.impacto <= 2.9:
+                        self.umbral = 'Bajo'
+                    else:
+                        self.umbral = 'Medio'
+            else:
+                if self.impacto <= 2.9:
+                    self.umbral = 'Medio'
+                else:
+                    self.umbral = 'Alto'
+        else:
+            if self.probabilidad <= 5.9:
+                self.umbral = 'Crítico'
+            else:
+                if self.probabilidad <= 2.9:
+                    self.umbral = 'Medio'
+                else:
+                    self.umbral = 'Alto'
+        """
         if umbralImpacto == 'Bajo' and umbralProbabilidad == 'Bajo':
             self.umbral = 'Insignificante'
         elif umbralImpacto == 'Bajo' and umbralProbabilidad == 'Medio':
@@ -88,8 +115,3 @@ class Riesgo(db.Model):
             self.umbral = 'Crítico'
         else:
             self.umbral = 'Sin umbral'
-
-
-
-
-
