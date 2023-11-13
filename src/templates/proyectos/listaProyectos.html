@@ -35,6 +35,10 @@
                 <div class="modal-body">
                     <form action="/anadir-proyecto" method="post" autocomplete="off">
                         <div class="mb-3">
+                            <input type="text" name="clave" class="form-control" placeholder="Clave del Proyecto"
+                                autofocus>
+                        </div>
+                        <div class="mb-3">
                             <input type="text" name="nombre" class="form-control" placeholder="Nombre del proyecto"
                                 autofocus>
                         </div>
@@ -56,23 +60,21 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Nombre del proyecto</th>
+                    <th>Clave del Proyecto</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
                 {% for proyecto in proyectos %}
                 <tr>
-                    <td>{{proyecto.nombre}}</td>
+                    <td>{{proyecto.clave}}</td>
                     <td>
                         <button type="button" class="btn btn-light" data-bs-toggle="modal"
                             data-bs-target="#Ventana{{proyecto.idProyecto}}"><i class="fa fa-plus"></i></button>
                         <a href="/editar-proyecto/{{proyecto.idProyecto}}" class="btn btn-success"><i
                                 class="fa fa-pencil"></i></a>
-                        <a href="/eliminar-proyecto/{{proyecto.idProyecto}}" class="btn btn-danger btn-delete"><i
-                                class="fa fa-trash"></i></a>
                         <a href="/seleccionar-proyecto/{{proyecto.idProyecto}}" class="btn btn-primary"><i
-                                class="fa fa-door-open"></i></a>
+                                class="fa fa-right-to-bracket"></i></a>
                     </td>
                 </tr>
                 {% endfor %}

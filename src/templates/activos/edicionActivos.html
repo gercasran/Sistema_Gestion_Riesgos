@@ -12,13 +12,15 @@
             <div class="card-body">
                 <form action="/actualizar-activos" method="post" autocomplete="off">
                     <div class="mb-3">
-                        <input type="text" name="idactivo" class="form-control" value="{{activo.idActivo}}" readonly>
+                        <input type="hidden" name="idactivo" class="form-control" value="{{activo.idActivo}}" readonly>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Nombre del Activo</label>
                         <input type="text" name="nombre" class="form-control" placeholder="Nombre del activo"
                             value="{{activo.nombre}}" required autofocus>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Descripción del Activo</label>
                         <textarea name="descripcion" cols="30" rows="10" class="form-control"
                             placeholder="Descripción completa del activo(Sin saltos de linea)">{{activo.descripcion}}</textarea>
                     </div>

@@ -68,18 +68,18 @@
 }
 
 .navbar .dropdown-menu {
-    background-color: #151515;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 .navbar .dropdown-menu .dropdown-item.active,
 .navbar .dropdown-menu .dropdown-item:hover {
-    background-color: #252525; 
-    color: white; 
+    background-color: white; 
+    color: black; 
 }
 
 .navbar .dropdown-menu a {
-    color: white; 
+    color: black; 
 }
 
 .navbar .dropdown-menu a:hover {
@@ -87,5 +87,5 @@
 }
 
 .dataTables_filter label {
-    color: #fff; /* Cambia esto al color que desees */
+    color: white; /* Cambia esto al color que desees */
 }

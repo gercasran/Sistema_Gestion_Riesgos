@@ -9,12 +9,18 @@
         <div class="card-body">
             <form action="/modificar-proyecto" method="post" autocomplete="off">
                 <div class="mb-3">
-                    <input type="text" name="idproyecto" class="form-control" value="{{proyecto.idProyecto}}" readonly>
+                    <input type="hidden" name="idproyecto" class="form-control" value="{{proyecto.idProyecto}}" readonly>
                 </div>
                 <div class="mb-3">
+                    <label for="form-label">Clave del Proyecto</label>
+                    <input type="text" name="clave" class="form-control" placeholder="Clave del Proyecto" value="{{proyecto.clave}}" autofocus>
+                </div>
+                <div class="mb-3">
+                    <label for="form-label">Nombre del Proyecto</label>
                     <input type="text" name="nombre" class="form-control" placeholder="Nombre del proyecto" value="{{proyecto.nombre}}" autofocus>
                 </div>
                 <div class="mb-3">
+                    <label for="form-label">Descripción del Proyecto</label>
                     <textarea name="descripcion" cols="30" rows="10" class="form-control"
                         placeholder="Descripción del proyecto(Sin saltos de linea)">{{proyecto.descripcion}}</textarea>
                 </div>

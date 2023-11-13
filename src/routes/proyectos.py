@@ -30,37 +30,41 @@ def vistaEditarProyecto(idProyecto):
 @proyectos.route('/anadir-proyecto', methods=['POST'])
 def añadirProyecto():
     if request.method == 'POST':
-        nombre = request.form['nombre']
-        descripcion = request.form['descripcion']
-        p = Proyecto(nombre=nombre, descripcion=descripcion, idUsuario=session['user_id'])
-        db.session.add(p)
-        db.session.commit()
-        flash('success')
-        flash('Proyecto creado correctamente')
+        try:
+            clave = request.form['clave']
+            nombre = request.form['nombre']
+            descripcion = request.form['descripcion']
+            p = Proyecto(clave=clave,nombre=nombre, descripcion=descripcion, idUsuario=session['user_id'])
+            db.session.add(p)
+            db.session.commit()
+            flash('success')
+            flash('Proyecto creado correctamente')
+        except:
+            db.session.rollback()
+            flash('danger')
+            flash('La clave del proyecto ya existe')
         return redirect(url_for('proyectos.vistaListaProyectos'))
 
 @proyectos.route('/modificar-proyecto', methods=['POST'])
 def modificarProyecto():
     if request.method == 'POST':
-        idProyecto = request.form['idproyecto']
-        nombre = request.form['nombre']
-        descripcion = request.form['descripcion']
-        p = Proyecto.query.filter_by(idProyecto=idProyecto).first()
-        p.nombre = nombre
-        p.descripcion = descripcion
-        db.session.commit()
-        flash('success')
-        flash('Proyecto modificado correctamente')
+        try:
+            idProyecto = request.form['idproyecto']
+            clave = request.form['clave']
+            nombre = request.form['nombre']
+            descripcion = request.form['descripcion']
+            p = Proyecto.query.filter_by(idProyecto=idProyecto).first()
+            p.clave = clave
+            p.nombre = nombre
+            p.descripcion = descripcion
+            db.session.commit()
+            flash('success')
+            flash('Proyecto modificado correctamente')
+        except:
+            db.session.rollback()
+            flash('danger')
+            flash('La clave del proyecto ya existe')
         return redirect(url_for('proyectos.vistaListaProyectos'))
-
-@proyectos.route('/eliminar-proyecto/<string:idProyecto>')
-def eliminarProyecto(idProyecto):
-    p = Proyecto.query.filter_by(idProyecto=idProyecto).first()
-    db.session.delete(p)
-    db.session.commit()
-    flash('danger')
-    flash('Proyecto eliminado correctamente')
-    return redirect(url_for('proyectos.vistaListaProyectos'))
 
 @proyectos.route('/seleccionar-proyecto/<string:idProyecto>')
 def seleccionarProyecto(idProyecto):

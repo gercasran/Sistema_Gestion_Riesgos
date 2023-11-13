@@ -12,14 +12,16 @@
             <div class="card-body">
                 <form action="/actualizar-riesgo" method="post" autocomplete="off">
                     <div class="mb-3">
-                        <input type="text" name="idRiesgo" class="form-control" placeholder="Nombre del riesgo"
+                        <input type="hidden" name="idRiesgo" class="form-control" placeholder="Nombre del riesgo"
                             value="{{riesgo.idRiesgo}}" readonly required>
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Nombre del Riesgo</label>
                         <input type="text" name="nombre" class="form-control" placeholder="Nombre del riesgo" required
                             autofocus value="{{riesgo.nombre}}">
                     </div>
                     <div class="mb-3">
+                        <label class="form-label">Descripción del Riesgo</label>
                         <textarea name="descripcion" cols="30" rows="10" class="form-control"
                             placeholder="Descripción completa del riesgo(Sin saltos de linea)">{{riesgo.descripcion}}</textarea>
                     </div>
