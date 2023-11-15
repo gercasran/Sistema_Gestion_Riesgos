@@ -14,7 +14,9 @@ const invertirColores = (esOscuro) => {
             item.style.backgroundColor = "#212529";
             item.style.color = "white";
         });
-        labels.style.color = 'white';
+        if (labels != null){
+            labels.style.color = 'white';
+        }
     } else {
         body.setAttribute('data-bs-theme', 'light');
         body.style.backgroundColor = "white";
@@ -25,7 +27,9 @@ const invertirColores = (esOscuro) => {
             item.style.backgroundColor = "white";
             item.style.color = "black";
         });
-        labels.style.color = 'black';
+        if (labels != null){
+            labels.style.color = 'black';
+        }
     }
 }
 

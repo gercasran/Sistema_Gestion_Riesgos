@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const expresionCorreo = /^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|live|msn|yahoo)\.(com|es|mx|co\.uk|fr|de|it)$/;
+    const expresionCorreo = /^[a-zA-Z0-9._%+-]+@(gmail|hotmail|outlook|live|msn|yahoo)\.(com|es|mx|co\.uk|fr|de|it|net|org)$/;
 
     const formulario = document.getElementById("formulario");
     const emailInput = document.getElementsByName("email");
