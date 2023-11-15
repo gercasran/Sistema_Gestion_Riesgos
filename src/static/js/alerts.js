@@ -9,4 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    if (alertRow) {
+        setTimeout(function () {
+            alertRow.remove();
+        }, 3000);
+    }
 });

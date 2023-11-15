@@ -3,6 +3,7 @@ const invertirColores = (esOscuro) => {
     const navbarDropdown = document.querySelector(".navbar .dropdown-menu");
     const dropdownItems = document.querySelectorAll(".navbar .dropdown-menu .dropdown-item");
     const labels = document.querySelector(".dataTables_filter label");
+    const buttons = document.querySelectorAll('.btn-more');
 
     if (esOscuro) {
         body.setAttribute('data-bs-theme', 'dark');
@@ -13,6 +14,10 @@ const invertirColores = (esOscuro) => {
         dropdownItems.forEach(item => {
             item.style.backgroundColor = "#212529";
             item.style.color = "white";
+        });
+        buttons.forEach(button =>{
+            button.classList.remove('btn-dark');
+            button.classList.add('btn-light');
         });
         if (labels != null){
             labels.style.color = 'white';
@@ -26,6 +31,10 @@ const invertirColores = (esOscuro) => {
         dropdownItems.forEach(item => {
             item.style.backgroundColor = "white";
             item.style.color = "black";
+        });
+        buttons.forEach(button =>{
+            button.classList.remove('btn-light');
+            button.classList.add('btn-dark');
         });
         if (labels != null){
             labels.style.color = 'black';

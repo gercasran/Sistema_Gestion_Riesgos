@@ -303,7 +303,7 @@
                     <td style="background-color: red;">{{ riesgo[0].umbral }}</td>
                     {% endif %}
                     <td>
-                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-light btn-more" data-bs-toggle="modal"
                             data-bs-target="#Ventana{{riesgo[0].idRiesgo}}"><i class="fa fa-plus"></i></button>
                         <a href="/modificar-riesgo/{{riesgo[0].idRiesgo}}" class="btn btn-success"><i
                                 class="fa fa-pencil"></i></a>
@@ -355,7 +355,8 @@
             "paging": false,
             "info": false,
             "language": {
-                "search": "Buscar:",
+                "search": "",  // Eliminar el texto "Buscar:"
+                "searchPlaceholder": "Buscar Riesgo",  // Establecer el marcador de posición
                 "zeroRecords": "No se encontraron registros coincidentes"
             },
             "columnDefs": [

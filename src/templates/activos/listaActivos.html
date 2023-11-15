@@ -130,7 +130,7 @@
                     <td>{{ activo.integridad }}</td>
                     <td>{{ activo.sensibilidad }}</td>
                     <td>
-                        <button type="button" class="btn btn-light" data-bs-toggle="modal"
+                        <button type="button" class="btn btn-light btn-more" data-bs-toggle="modal"
                             data-bs-target="#Ventana{{activo.idActivo}}"><i class="fa fa-plus"></i></button>
                         <a href="/modificar-activo/{{activo.idActivo}}" class="btn btn-success"><i
                                 class="fa fa-pencil"></i></a>
@@ -186,32 +186,33 @@
 {% endfor %}
 <script>
     $(document).ready(function () {
-        $('.table').DataTable({
-            "lengthChange": false,
-            "paging": false,
-            "info": false,
-            "language": {
-                "search": "Buscar:",
-                "zeroRecords": "No se encontraron registros coincidentes"
+    $('.table').DataTable({
+        "lengthChange": false,
+        "paging": false,
+        "info": false,
+        "language": {
+            "search": "",  // Eliminar el texto "Buscar:"
+            "searchPlaceholder": "Buscar Activo",  // Establecer el marcador de posición
+            "zeroRecords": "No se encontraron registros coincidentes"
+        },
+        "columnDefs": [
+            {
+                "orderable": false,
+                "searchable": true,
+                "targets": [0]
             },
-            "columnDefs": [
-                {
-                    "orderable": false, // Deshabilitar ordenamiento
-                    "searchable": true, // Permitir búsqueda
-                    "targets": [0] // Primera columna
-                },
-                {
-                    "orderable": true,
-                    "searchable": false, // Deshabilitar búsqueda
-                    "targets": "custom-sort",
-                },
-                {
-                    "orderable": false, // Deshabilitar ordenamiento
-                    "searchable": false, // Deshabilitar búsqueda
-                    "targets": [-1] // Última columna
-                }
-            ]
-        });
+            {
+                "orderable": true,
+                "searchable": false,
+                "targets": "custom-sort",
+            },
+            {
+                "orderable": false,
+                "searchable": false,
+                "targets": [-1]
+            }
+        ]
     });
+});
 </script>
 {% endblock %}
