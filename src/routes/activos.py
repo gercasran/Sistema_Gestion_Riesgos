@@ -5,7 +5,6 @@ from src.models.proyectos import Proyecto
 from src.models.activos import Activo
 from src.models.tipo_activo import TipoActivo
 from src.models.tipo_ubicacion import TipoUbicacion
-from src.models.responsables import Participante
 
 activos = Blueprint('activos', __name__)
 
@@ -76,24 +75,26 @@ cdi = {
 def vistaListaActivos():
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
         return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        activos = proyecto.activos
-        return render_template('activos/listaActivos.html', usuario=usuario, activos=activos, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all(), participantes=proyecto.responsables)
+    proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
+    activos = proyecto.activos
+    return render_template('activos/listaActivos.html', usuario=usuario, activos=activos, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all(), participantes=proyecto.responsables)
 
 @activos.route('/modificar-activo/<string:idActivo>')
 def vistaModificacionActivos(idActivo):
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
         return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        activo = Activo.query.filter_by(idActivo=idActivo).first()
-        return render_template('activos/edicionActivos.html', usuario=usuario, activo=activo, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all(), participantes=Participante.query.all())
+    activo = Activo.query.filter_by(idActivo=idActivo).first()
+    return render_template('activos/edicionActivos.html', usuario=usuario, activo=activo, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all())
 
 @activos.route('/anadir-activos', methods=['POST'])
 def añadirActivos():
@@ -103,7 +104,6 @@ def añadirActivos():
         confidencialidad = request.form['confidencialidad']
         disponibilidad = request.form['disponibilidad']
         integridad = request.form['integridad']
-        idParticipante = request.form['idParticipante']
         idTipoActivo = request.form['idTipoActivo']
         idTipoUbicacion = request.form['idTipoUbicacion']
         a = Activo(
@@ -112,7 +112,6 @@ def añadirActivos():
             confidencialidad=int(confidencialidad),
             disponibilidad=int(disponibilidad),
             integridad=int(integridad),
-            idParticipante=idParticipante,
             idTipoActivo=int(idTipoActivo),
             idTipoUbicacion=int(idTipoUbicacion),
             idProyecto=session['proyecto_id']
@@ -133,7 +132,6 @@ def modificarActivos():
         confidencialidad = request.form['confidencialidad']
         disponibilidad = request.form['disponibilidad']
         integridad = request.form['integridad']
-        idParticipante = request.form['idParticipante']
         idTipoActivo = request.form['idTipoActivo']
         idTipoUbicacion = request.form['idTipoUbicacion']
         a = Activo.query.filter_by(idActivo=idActivo).first()
@@ -142,7 +140,6 @@ def modificarActivos():
         a.confidencialidad=int(confidencialidad)
         a.disponibilidad=int(disponibilidad)
         a.integridad=int(integridad)
-        a.idParticipante = idParticipante
         a.idTipoActivo=int(idTipoActivo)
         a.idTipoUbicacion=int(idTipoUbicacion)
         a.calcularSensibilidad()

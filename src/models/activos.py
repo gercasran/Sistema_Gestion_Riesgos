@@ -14,21 +14,18 @@ class Activo(db.Model):
     disponibilidad = db.Column(db.Integer, nullable=False)
     integridad = db.Column(db.Integer, nullable=False)
     sensibilidad = db.Column(db.Integer, nullable=False)
-    idParticipante = db.Column(db.String(32), db.ForeignKey('Participantes.idResponsable', ondelete='SET NULL'), nullable=True)
     idProyecto = db.Column(db.String(32), db.ForeignKey('Proyectos.idProyecto', ondelete='CASCADE'), nullable=False)
     idTipoActivo = db.Column(db.Integer, db.ForeignKey('TiposActivos.idTipoActivo', ondelete='CASCADE'), nullable=False)
     idTipoUbicacion = db.Column(db.Integer, db.ForeignKey('TiposUbicacion.idTipoUbicacion', ondelete='CASCADE'), nullable=False)
     riesgos = db.relationship('Riesgo', backref='activo', cascade='all, delete-orphan')
 
-
-    def __init__(self, nombre, descripcion, confidencialidad, disponibilidad, integridad, idParticipante, idProyecto, idTipoActivo, idTipoUbicacion) -> None:
+    def __init__(self, nombre, descripcion, confidencialidad, disponibilidad, integridad, idProyecto, idTipoActivo, idTipoUbicacion) -> None:
         self.nombre = nombre
         self.descripcion = descripcion
         self.confidencialidad = confidencialidad
         self.disponibilidad = disponibilidad
         self.integridad = integridad
         self.sensibilidad = 0
-        self.idParticipante = idParticipante
         self.idProyecto = idProyecto
         self.idTipoActivo = idTipoActivo
         self.idTipoUbicacion = idTipoUbicacion

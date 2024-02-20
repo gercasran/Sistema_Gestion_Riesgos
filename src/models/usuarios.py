@@ -13,15 +13,19 @@ class Usuario(db.Model):
     apellidoPaterno = db.Column(db.String(50), nullable=False)
     apellidoMeterno = db.Column(db.String(50), nullable=False)
     correo = db.Column(db.String(50), unique=True, nullable=False)
+    telefono = db.Column(db.String(15), unique=True, nullable=False)
     contrasena = db.Column(db.String(50), nullable=False)
-    proyectos = db.relationship('Proyecto', backref='usuario', cascade='all, delete-orphan')
+    rol = db.Column(db.Integer, nullable=False)
+    proyectos = db.relationship('Proyecto', secondary='Participantes', backref=db.backref('usuarios', lazy='dynamic'))
 
-    def __init__(self, nombre, apellidoPaterno, apelidoMaterno, correo, contrasena) -> None:
+    def __init__(self, nombre, apellidoPaterno, apelidoMaterno, correo, telefono, contrasena, rol) -> None:
         self.nombre = nombre
         self.apellidoPaterno = apellidoPaterno
         self.apellidoMeterno = apelidoMaterno
         self.correo = correo
+        self.telefono = telefono
         self.contrasena = bcrypt.generate_password_hash(contrasena)
+        self.rol = rol
 
     def verificarContrasena(self, contrasena) -> bool:
         return bcrypt.check_password_hash(self.contrasena, contrasena)

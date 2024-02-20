@@ -30,22 +30,24 @@
                 <div class="modal-body">
                     <form action="/anadir-responsable" method="post" autocomplete="off" id="formulario">
                         <div class="mb-3">
-                            <input type="text" name="nombre" class="form-control"
-                                placeholder="Nombre Completo del Participante" required autofocus>
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre(s)" required autofocus>
                         </div>
                         <div class="mb-3">
-                            <input type="text" name="departamento" class="form-control"
-                                placeholder="Departamento o Rol del Participante" required>
+                            <input type="text" name="aPaterno" class="form-control" placeholder="Apellido Paterno" required>
                         </div>
                         <div class="mb-3">
-                            <input type="tel" name="telefono" class="form-control"
-                                placeholder="El Télefono del Participante" required>
+                            <input type="text" name="aMaterno" class="form-control" placeholder="Apellido Materno" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" name="email" class="form-control" placeholder="E-Mail" required>
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" name="tel" class="form-control"
+                                placeholder="Télefono" required>
                                 <div class="form-text">Ejemplos: 55-1234-5678 ó 56-1234-5678</div>
                         </div>
                         <div class="mb-3">
-                            <input type="email" name="email" class="form-control"
-                                placeholder="Correo electrónico del Participante" required>
-                                <div class="form-text">Ejemplo: ejemplo@gmail.com (Se valida proveedores y dominios conocidos)</div>
+                            <input type="password" name="password" class="form-control" placeholder="Contraseña" required>
                         </div>
                         <div class="mb-3">
                             <button type="submit" class="btn btn-dark bg-black w-100">Registrar</button>
@@ -61,14 +63,16 @@
         <table class="table">
             <thead>
                 <th>Nombre del Participante</th>
-                <th>Departamento del Participante</th>
+                <th>Correo del Participante</th>
+                <th>Télefono del Participante</th>
                 <th>Más información</th>
             </thead>
             <tbody>
                 {% for responsable in responsables %}
                 <tr>
                     <td>{{ responsable.nombre }}</td>
-                    <td>{{ responsable.departamento }}</td>
+                    <td>{{ responsable.correo }}</td>
+                    <td>{{ responsable.telefono }}</td>
                     <td>
                         <button type="button" class="btn btn-light btn-more" data-bs-toggle="modal"
                             data-bs-target="#Ventana{{responsable.idResponsable}}"><i class="fa fa-plus"></i></button>
@@ -93,9 +97,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-justify">
-                <h4>Contacto del Participante</h4>
-                <p><b>Teléfono: </b>{{responsable.telefono}}</p>
+                <p><b>Nombre completo del Participante: </b>{{responsable.nombre}} {{responsable.apellidoPaterno}} {{responsable.apellidoMaterno}}</p>
                 <p><b>Correo electrónico: </b>{{responsable.correo}}</p>
+                <p><b>Teléfono: </b>{{responsable.telefono}}</p>
             </div>
         </div>
     </div>

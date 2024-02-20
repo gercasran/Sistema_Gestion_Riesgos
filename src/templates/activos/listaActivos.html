@@ -88,16 +88,6 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Responsable o Dueño del Activo</label>
-                                <select name="idParticipante" class="form-select">
-                                    {% for participante in participantes %}
-                                    <option value="{{participante.idResponsable}}">{{participante.nombre}} |
-                                        Departamento:
-                                        {{participante.departamento}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
                         </div>
                         <div class="row">
                             <div class="mb-3">
@@ -160,25 +150,6 @@
                 <p><b>Disponibilidad: </b>{{cdi['disponibilidad'][activo.disponibilidad]}}</p>
                 <p><b>Integridad: </b>{{cdi['integridad'][activo.integridad]}}</p>
                 <p><b>Sensibilidad: </b>{{cdi['sensibilidad'][activo.sensibilidad]}}</p>
-                <h4>Datos del Responsable o Dueño</h4>
-                {% if activo.idParticipante is none %}
-                <p><b>NO HAY UN RESPONSABLE O DUEÑO ASIGNADO EN ESTE ACTIVO</b></p>
-                {% else %}
-                <p><b>Nombre: </b>{{activo.dueño_responsable.nombre}}</p>
-                <p><b>Departamento: </b>{{activo.dueño_responsable.departamento}}</p>
-                <p><b>Numero de Contacto: </b>{{activo.dueño_responsable.telefono}}</p>
-                <p><b>Correo Electrónico de Contacto: </b>{{activo.dueño_responsable.correo}}</p>
-                {% endif %}
-                <h4>Riesgos identificados</h4>
-                {% if activo.riesgos|length > 0 %}
-                <ol>
-                    {% for riesgo in activo.riesgos %}
-                    <li>{{riesgo.nombre}} | Umbral: {{riesgo.umbral}}</li>
-                    {% endfor %}
-                </ol>
-                {% else %}
-                <p>No se han identificado riesgos en este activo.</p>
-                {% endif %}
             </div>
         </div>
     </div>

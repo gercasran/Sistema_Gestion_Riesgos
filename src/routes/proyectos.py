@@ -9,23 +9,25 @@ proyectos = Blueprint('proyectos', __name__)
 def vistaListaProyectos():
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif 'proyecto_id' in session:
-        return redirect(url_for('home.vistaHome'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyectos = usuario.proyectos
-        return render_template('proyectos/listaProyectos.html', usuario=usuario, proyectos=proyectos)
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
+        return redirect(url_for('proyectos.vistaListaProyectos'))
+    proyectos = usuario.proyectos
+    return render_template('proyectos/listaProyectos.html', usuario=usuario, proyectos=proyectos)
 
 @proyectos.route('/editar-proyecto/<string:idProyecto>')
 def vistaEditarProyecto(idProyecto):
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif 'proyecto_id' in session:
-        return redirect(url_for('home.vistaHome'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto=idProyecto).first()
-        return render_template('proyectos/editarProyecto.html', usuario=usuario, proyecto=proyecto)
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
+        return redirect(url_for('proyectos.vistaListaProyectos'))
+    proyecto = Proyecto.query.filter_by(idProyecto=idProyecto).first()
+    return render_template('proyectos/editarProyecto.html', usuario=usuario, proyecto=proyecto)
 
 @proyectos.route('/anadir-proyecto', methods=['POST'])
 def añadirProyecto():

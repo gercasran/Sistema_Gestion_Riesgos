@@ -182,31 +182,33 @@ factores_de_impacto_empresarial = {
 def vistaListaRiesgos():
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
         return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        activos = proyecto.activos
-        riesgos = []
-        for activo in activos:
-            riesgos += activo.riesgos
-        riesgos_umbrales = []
-        for riesgo in riesgos:
-            riesgos_umbrales.append((riesgo, definirUmbral(riesgo.probabilidad), definirUmbral(riesgo.impacto)))
-        return render_template('riesgos/listaRiesgos.html', usuario=usuario, riesgos_umbrales=riesgos_umbrales, umbrales=umbrales, tiposRiesgo=TipoRiesgo.query.all(), activos=proyecto.activos, factores_de_amenaza=factores_de_amenaza, factores_de_impacto_empresarial=factores_de_impacto_empresarial, factores_de_vulnerabilidad=factores_de_vulnerabilidad)
+    proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
+    activos = proyecto.activos
+    riesgos = []
+    for activo in activos:
+        riesgos += activo.riesgos
+    riesgos_umbrales = []
+    for riesgo in riesgos:
+        riesgos_umbrales.append((riesgo, definirUmbral(riesgo.probabilidad), definirUmbral(riesgo.impacto)))
+    return render_template('riesgos/listaRiesgos.html', usuario=usuario, riesgos_umbrales=riesgos_umbrales, umbrales=umbrales, tiposRiesgo=TipoRiesgo.query.all(), activos=proyecto.activos, factores_de_amenaza=factores_de_amenaza, factores_de_impacto_empresarial=factores_de_impacto_empresarial, factores_de_vulnerabilidad=factores_de_vulnerabilidad)
 
 @riesgos.route('/modificar-riesgo/<string:idRiesgo>')
 def vistaModificacionRiesgo(idRiesgo):
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
         return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        riesgo = Riesgo.query.filter_by(idRiesgo=idRiesgo).first()
-        return render_template('riesgos/edicionRiesgo.html', usuario=usuario, riesgo=riesgo, tiposRiesgo=TipoRiesgo.query.all(), activos=proyecto.activos, factores_de_amenaza=factores_de_amenaza, factores_de_impacto_empresarial=factores_de_impacto_empresarial, factores_de_vulnerabilidad=factores_de_vulnerabilidad)
+    proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
+    riesgo = Riesgo.query.filter_by(idRiesgo=idRiesgo).first()
+    return render_template('riesgos/edicionRiesgo.html', usuario=usuario, riesgo=riesgo, tiposRiesgo=TipoRiesgo.query.all(), activos=proyecto.activos, factores_de_amenaza=factores_de_amenaza, factores_de_impacto_empresarial=factores_de_impacto_empresarial, factores_de_vulnerabilidad=factores_de_vulnerabilidad)
 
 @riesgos.route('/anadir-riesgo', methods=['POST'])
 def añadirRiesgo():
