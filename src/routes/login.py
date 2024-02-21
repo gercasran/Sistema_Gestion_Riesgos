@@ -11,13 +11,6 @@ def vistaLogin():
     else:
         return redirect(url_for('proyectos.vistaListaProyectos'))
 
-@login.route('/register')
-def vistaSignUp():
-    if not 'user_id' in session:
-        return render_template('login/signUp.html')
-    else:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-
 @login.route('/login', methods=['POST'])
 def loginUser():
     if request.method == 'POST':
@@ -32,36 +25,10 @@ def loginUser():
             return redirect(url_for('login.vistaLogin'))
 
         session['user_id'] = usuario.idUsuario
-        return redirect(url_for('proyectos.vistaListaProyectos'))
-
-@login.route('/signup', methods=['POST'])
-def signUpUser():
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        aPaterno = request.form['aPaterno']
-        aMaterno = request.form['aMaterno']
-        email = request.form['email']
-        password = request.form['password']
-        
-        emailExiste = Usuario.query.filter_by(correo=email).first()
-
-        if emailExiste:
-            flash('danger')
-            flash('El correo que ingreso ya existe en el sistema')
-            return redirect(url_for('login.vistaSignUp'))
-
-        u = Usuario(
-            nombre=nombre,
-            apellidoPaterno=aPaterno,
-            apelidoMaterno=aMaterno,
-            correo=email,
-            contrasena=password
-        )
-        db.session.add(u)
-        db.session.commit()
-        flash('success')
-        flash('Se ha registrado exitosamente')
-        return redirect(url_for('login.vistaLogin'))
+        if usuario.rol == 0:
+            return redirect(url_for('proyectos.vistaListaProyectos'))
+        else:
+            return redirect(url_for('proyectosP.vistaListaProyectos'))
 
 @login.route('/logout')
 def logoutUser():

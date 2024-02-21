@@ -9,12 +9,13 @@ home = Blueprint('home', __name__)
 def vistaHome():
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif not 'proyecto_id' in session:
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    if not 'proyecto_id' in session:
         return redirect(url_for('proyectos.vistaListaProyectos'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
-        return render_template('home/home.html', usuario=usuario, proyecto=proyecto)
+    proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
+    return render_template('home/home.html', usuario=usuario, proyecto=proyecto)
 
 @home.route('/regresar-proyectos')
 def regresarProyectos():

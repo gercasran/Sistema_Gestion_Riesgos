@@ -9,23 +9,22 @@ proyectos = Blueprint('proyectos', __name__)
 def vistaListaProyectos():
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif 'proyecto_id' in session:
-        return redirect(url_for('home.vistaHome'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyectos = usuario.proyectos
-        return render_template('proyectos/listaProyectos.html', usuario=usuario, proyectos=proyectos)
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logoutUser'))
+    proyectos = usuario.proyectos
+    responsables = Usuario.query.filter_by(idJefe = usuario.idUsuario).all()
+    return render_template('proyectos/listaProyectos.html', usuario=usuario, proyectos=proyectos, responsables=responsables)
 
 @proyectos.route('/editar-proyecto/<string:idProyecto>')
 def vistaEditarProyecto(idProyecto):
     if not 'user_id' in session:
         return redirect(url_for('login.vistaLogin'))
-    elif 'proyecto_id' in session:
-        return redirect(url_for('home.vistaHome'))
-    else:
-        usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
-        proyecto = Proyecto.query.filter_by(idProyecto=idProyecto).first()
-        return render_template('proyectos/editarProyecto.html', usuario=usuario, proyecto=proyecto)
+    usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+    if usuario.rol == 1:
+        return redirect(url_for('login.logout'))
+    proyecto = Proyecto.query.filter_by(idProyecto=idProyecto).first()
+    return render_template('proyectos/editarProyecto.html', usuario=usuario, proyecto=proyecto)
 
 @proyectos.route('/anadir-proyecto', methods=['POST'])
 def añadirProyecto():
@@ -34,8 +33,10 @@ def añadirProyecto():
             clave = request.form['clave']
             nombre = request.form['nombre']
             descripcion = request.form['descripcion']
-            p = Proyecto(clave=clave,nombre=nombre, descripcion=descripcion, idUsuario=session['user_id'])
+            p = Proyecto(clave=clave,nombre=nombre, descripcion=descripcion)
             db.session.add(p)
+            usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+            p.usuarios.append(usuario)
             db.session.commit()
             flash('success')
             flash('Proyecto creado correctamente')

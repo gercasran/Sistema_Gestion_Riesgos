@@ -97,20 +97,6 @@
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Responsable o Dueño del Activo</label>
-                        <select name="idParticipante" class="form-select">
-                            {% for participante in participantes %}
-                            {% if activo.idParticipante == participante.idResponsable %}
-                            <option value="{{participante.idResponsable}}" selected>{{participante.nombre}} |
-                                Departamento: {{participante.departamento}}</option>
-                            {% else %}
-                            <option value="{{participante.idResponsable}}">{{participante.nombre}} | Departamento:
-                                {{participante.departamento}}</option>
-                            {% endif %}
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="mb-3">
                         <button type="submit" class="btn btn-dark bg-black w-100">Modificar</button>
                     </div>
                 </form>
