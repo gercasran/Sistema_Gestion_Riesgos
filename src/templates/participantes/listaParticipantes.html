@@ -1,0 +1,84 @@
+{% extends "templateSideBar.html" %}
+
+{% block username %} {{usuario.nombre}} {% endblock %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="row pt-5" id="alertRow">
+    <div class="alert alert-{{messages[0]}} alert-dismissible fade show" role="alert">
+        {{messages[1]}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" id="closeAlert"></button>
+    </div>
+</div>
+{% endif %}
+{% endwith %}
+<div class="row pt-2">
+    <h2>Participantes</h2>
+</div>
+<div class="row pt-2">
+    <form action="/anadir-participante" method="post">
+        <div class="row">
+            <div class="col-8">
+                <select name="idParticipante" class="form-select" style="white-space: pre-line;" required>
+                    {% for participante in participantes_listado %}
+                    <option value="{{participante.idUsuario}}">{{participante.nombre}} {{participante.apellidoPaterno}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-4">
+                <button type="submit" class="btn btn-dark bg-black w-100">Añadir</button>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row pt-2">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                {% for participante in participantes_proyecto %}
+                {% if participante.rol != 0 %}
+                <tr>
+                    <td>{{ participante.nombre }}</td>
+                    <td>{{ participante.correo }}</td>
+                    <td>{{ participante.telefono }}</td>
+                    <td>
+                        <button type="button" class="btn btn-light btn-more" data-bs-toggle="modal"
+                            data-bs-target="#Ventana{{participante.idUsuario}}"><i class="fa fa-plus"></i></button>
+                        <a href="/expulsar-participante/{{participante.idUsuario}}" class="btn btn-danger btn-delete"><i
+                                class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% for participante in participantes_proyecto %}
+<div class="modal fade" id="Ventana{{participante.idUsuario}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalles del Participante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-justify">
+                <p><b>Nombre completo del Participante: </b>{{participante.nombre}}
+                    {{participante.apellidoPaterno}} {{participante.apellidoMaterno}}</p>
+                <p><b>Correo electrónico: </b>{{participante.correo}}</p>
+                <p><b>Teléfono: </b>{{participante.telefono}}</p>
+                <p>MAS DETALLES EN PROXIMAS VERSIONES</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -11,11 +11,10 @@ def vistaListaProyectos():
         return redirect(url_for('login.vistaLogin'))
     usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
     if usuario.rol == 1:
-        return redirect(url_for('login.logout'))
-    if not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
+        return redirect(url_for('login.logoutUser'))
     proyectos = usuario.proyectos
-    return render_template('proyectos/listaProyectos.html', usuario=usuario, proyectos=proyectos)
+    responsables = Usuario.query.filter_by(idJefe = usuario.idUsuario).all()
+    return render_template('proyectos/listaProyectos.html', usuario=usuario, proyectos=proyectos, responsables=responsables)
 
 @proyectos.route('/editar-proyecto/<string:idProyecto>')
 def vistaEditarProyecto(idProyecto):
@@ -24,8 +23,6 @@ def vistaEditarProyecto(idProyecto):
     usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
     if usuario.rol == 1:
         return redirect(url_for('login.logout'))
-    if not 'proyecto_id' in session:
-        return redirect(url_for('proyectos.vistaListaProyectos'))
     proyecto = Proyecto.query.filter_by(idProyecto=idProyecto).first()
     return render_template('proyectos/editarProyecto.html', usuario=usuario, proyecto=proyecto)
 
@@ -36,8 +33,10 @@ def añadirProyecto():
             clave = request.form['clave']
             nombre = request.form['nombre']
             descripcion = request.form['descripcion']
-            p = Proyecto(clave=clave,nombre=nombre, descripcion=descripcion, idUsuario=session['user_id'])
+            p = Proyecto(clave=clave,nombre=nombre, descripcion=descripcion)
             db.session.add(p)
+            usuario = Usuario.query.filter_by(idUsuario = session['user_id']).first()
+            p.usuarios.append(usuario)
             db.session.commit()
             flash('success')
             flash('Proyecto creado correctamente')

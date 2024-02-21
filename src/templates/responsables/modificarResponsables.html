@@ -1,9 +1,9 @@
-{% extends "templateSideBar.html" %}
+{% extends "templateNoSideBar.html" %}
 
 {% block username %} {{usuario.nombre}} {% endblock %}
 
 {% block content %}
-<div class="row pt-2">
+<div class="row pt-5">
     <div class="col-12">
         <div class="card">
             <div class="card-header text-center">
@@ -12,23 +12,27 @@
             <div class="card-body">
                 <form action="/actualizar-responsable" method="post" autocomplete="off" id="formulario">
                     <div class="mb-3">
-                        <input type="hidden" name="idResponsable" class="form-control" value="{{responsable.idResponsable}}" readonly>
+                        <input type="hidden" name="idResponsable" class="form-control" value="{{responsable.idUsuario}}" readonly>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Nombre Completo del Participante</label>
-                        <input type="text" name="nombre" class="form-control" placeholder="Nombre Completo del Participante" value="{{responsable.nombre}}" required autofocus>
+                        <label class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" value="{{responsable.nombre}}" required autofocus>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Departamento o Rol del Participante</label>
-                        <input type="text" name="departamento" class="form-control" placeholder="Departamento del Participante" value="{{responsable.departamento}}" required>
+                        <label class="form-label">Apellido Paterno</label>
+                        <input type="text" name="aPaterno" class="form-control" value="{{responsable.apellidoPaterno}}" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Apellido Materno</label>
+                        <input type="text" name="aMaterno" class="form-control" value="{{responsable.apellidoMaterno}}" required autofocus>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico del Participante</label>
+                        <input type="email" name="email" class="form-control" value="{{responsable.correo}}" required autofocus>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Télefono del Participante</label>
-                        <input type="tel" name="telefono" class="form-control" placeholder="El telefono del Participante" value="{{responsable.telefono}}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Correo Eléctronico del Participante</label>
-                        <input type="email" name="email" class="form-control" placeholder="Correo electrónico del Participante" value="{{responsable.correo}}" required>
+                        <input type="tel" name="telefono" class="form-control" value="{{responsable.telefono}}" required>
                     </div>
                     <div class="mb-3">
                         <button type="submit" class="btn btn-dark bg-black w-100">Modificar</button>
