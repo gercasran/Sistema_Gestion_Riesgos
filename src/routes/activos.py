@@ -82,7 +82,7 @@ def vistaListaActivos():
         return redirect(url_for('proyectos.vistaListaProyectos'))
     proyecto = Proyecto.query.filter_by(idProyecto = session['proyecto_id']).first()
     activos = proyecto.activos
-    return render_template('activos/listaActivos.html', usuario=usuario, activos=activos, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all(), participantes=proyecto.responsables)
+    return render_template('activos/listaActivos.html', usuario=usuario, activos=activos, cdi=cdi, tiposActivo=TipoActivo.query.all(), tiposUbicacion=TipoUbicacion.query.all())
 
 @activos.route('/modificar-activo/<string:idActivo>')
 def vistaModificacionActivos(idActivo):
